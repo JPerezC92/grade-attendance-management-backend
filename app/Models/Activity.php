@@ -5,18 +5,15 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-
-
-class Student extends Model
+class Activity extends Model
 {
     use HasFactory;
-    protected $table = "student";
-    public $timestamps = true;
+
+    protected $table = 'activity';
+    public $timestamps = false;
 
     protected $fillable = [
-        'firstname',
-        'lastname',
-        'studentCode',
-        'gradeId'
+        'name',
+        'gradeId',
     ];
 }

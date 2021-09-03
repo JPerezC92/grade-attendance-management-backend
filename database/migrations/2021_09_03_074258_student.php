@@ -21,7 +21,7 @@ class Student extends Migration
                 $table->string("lastname", 50);
                 $table->string("studentCode", 50);
                 $table->timestamps();
-                $table->unsignedBigInteger('gradeId')->unique();
+                $table->unsignedBigInteger('gradeId');
                 $table->foreign('gradeId')->references('id')->on('grade');
             }
         );
