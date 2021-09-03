@@ -1,0 +1,23 @@
+{
+  "name": "grade and attendance management",
+  "dockerComposeFile": "../docker-compose.yml",
+  "service": "api",
+  "workspaceFolder": "/api",
+  "shutdownAction": "stopCompose",
+  "settings": {
+    "terminal.integrated.automationShell.linux": "/bin/bash",
+    "editor.fontSize": 14,
+    "editor.bracketPairColorization.enabled": true,
+    "editor.formatOnSave": true,
+    "workbench.colorTheme": "Andromeda Bordered",
+    "workbench.iconTheme": "material-icon-theme"
+  },
+  "extensions": [
+    "rangav.vscode-thunder-client",
+    "felixfbecker.php-debug",
+    "bmewburn.vscode-intelephense-client",
+    "junstyle.php-cs-fixer",
+    "eamodio.gitlens",
+    "tabnine.tabnine-vscode",
+  ]
+}

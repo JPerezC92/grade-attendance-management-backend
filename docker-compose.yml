@@ -1,0 +1,23 @@
+version: "3.7"
+
+services:
+    api:
+        container_name: grade-attendance-management
+        build: .
+        environment:
+            - PORT=5000
+        depends_on:
+            - mysql
+        volumes:
+            - .:/api
+        ports: ["8000:8000"]
+        tty: true
+
+    mysql:
+        container_name: mysql-db
+        image: mysql:8.0.26
+        environment:
+            MYSQL_DATABASE: grade-attendance-management
+            MYSQL_ROOT_PASSWORD: 123456
+        ports:
+            - "3306:3306"
