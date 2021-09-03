@@ -16,7 +16,6 @@ class AttendanceStatus extends Migration
         Schema::create('attendanceStatus', function (Blueprint $table) {
             $table->bigIncrements("id");
             $table->string('value')->unique();
-            $table->timestamps();
         });
     }
 
