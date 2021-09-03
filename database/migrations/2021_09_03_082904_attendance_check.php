@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AssignedScore extends Migration
+class AttendanceCheck extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,16 @@ class AssignedScore extends Migration
      */
     public function up()
     {
-        Schema::create('assignededScore', function (Blueprint $table) {
+        Schema::create('attendanceCheck', function (Blueprint $table) {
             $table->bigIncrements("id");
-            $table->integer('value');
             $table->timestamps();
-            $table->unsignedBigInteger('scoreId');
-            $table->foreign('scoreId')->references('id')->on('score');
+
+            $table->unsignedBigInteger('attendanceId');
+            $table->foreign('attendanceId')->references('id')->on('attendance');
             $table->unsignedBigInteger('studentId');
             $table->foreign('studentId')->references('id')->on('student');
+            $table->unsignedBigInteger('attendanceStatusId');
+            $table->foreign('attendanceStatusId')->references('id')->on('attendanceStatus');
         });
     }
 
@@ -31,6 +33,6 @@ class AssignedScore extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('assignededScore');
+        Schema::dropIfExists('attendanceCheck');
     }
 }

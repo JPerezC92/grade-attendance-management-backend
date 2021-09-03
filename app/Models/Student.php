@@ -17,6 +17,6 @@ class Student extends Model
         'firstname',
         'lastname',
         'studentCode',
-        'gradeId'
+        'courseRecordId'
     ];
 }

@@ -5,11 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Grade extends Model
+class CourseRecord extends Model
 {
     use HasFactory;
 
-    protected $table = "grade";
+    protected $table = "courseRecord";
     public $timestamps = true;
 
     protected $fillable = [

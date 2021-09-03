@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class Grade extends Migration
+class AttendanceStatus extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,11 @@ class Grade extends Migration
      */
     public function up()
     {
-        Schema::create(
-            "grade",
-            function (Blueprint $table) {
-                $table->bigIncrements("id");
-                $table->string("name", 50);
-                $table->timestamps();
-            }
-        );
+        Schema::create('attendanceStatus', function (Blueprint $table) {
+            $table->bigIncrements("id");
+            $table->string('value')->unique();
+            $table->timestamps();
+        });
     }
 
     /**
@@ -30,6 +27,6 @@ class Grade extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('grade');
+        Schema::dropIfExists('attendanceStatus');
     }
 }

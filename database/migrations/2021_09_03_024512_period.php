@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class Attendance extends Migration
+class Period extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,11 @@ class Attendance extends Migration
      */
     public function up()
     {
-        Schema::create('attendance', function (Blueprint $table) {
-            $table->id();
-            $table->date("date");
+        Schema::create('period', function (Blueprint $table) {
+            $table->bigIncrements("id");
+            $table->string('value');
+            $table->enum('status', ["active", "inactivo"])->default('active');
             $table->timestamps();
-            $table->unsignedBigInteger('courseRecordId');
-            $table->foreign('courseRecordId')->references('id')->on('courseRecord');
         });
     }
 
@@ -29,6 +28,6 @@ class Attendance extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('attendance');
+        Schema::dropIfExists('period');
     }
 }

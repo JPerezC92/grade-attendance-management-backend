@@ -14,7 +14,7 @@ class Activity extends Model
 
     protected $fillable = [
         'name',
-        'gradeId',
+        'courseRecordId',
     ];
 
     public function scores()
