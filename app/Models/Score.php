@@ -5,20 +5,16 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Activity extends Model
+class Score extends Model
 {
     use HasFactory;
 
-    protected $table = 'activity';
+
+    protected $table = 'score';
     public $timestamps = false;
 
     protected $fillable = [
         'name',
-        'gradeId',
+        'activityId',
     ];
-
-    public function scores()
-    {
-        return $this->hasMany(Score::class);
-    }
 }
