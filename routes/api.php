@@ -19,6 +19,4 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 
-Route::get('/hola', function (Request $request) {
-    return response()->json(["hola"=>"kdksdk"]);
-});
+Route::prefix('student')->group(__DIR__ . '/student/student.php');
