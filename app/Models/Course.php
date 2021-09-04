@@ -17,4 +17,9 @@ class Course extends Model
         'career',
         'instructorId',
     ];
+
+    public function courseRecords()
+    {
+        return $this->hasMany(CourseRecord::class, "courseId");
+    }
 }

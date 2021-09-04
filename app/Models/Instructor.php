@@ -19,4 +19,9 @@ class Instructor extends Model
         'password',
         'status'
     ];
+
+    public function courses()
+    {
+        return $this->hasMany(Course::class, "instructorId");
+    }
 }

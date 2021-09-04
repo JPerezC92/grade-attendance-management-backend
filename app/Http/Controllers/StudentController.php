@@ -84,10 +84,10 @@ class StudentController extends Controller
 
 
 
-    public function getById(Request $request, $id)
+    public function getById(Request $request, $studentId)
     {
         try {
-            $student =  Student::find($id);
+            $student =  Student::find($studentId);
 
             return response()->json([
                 "success" => true,
@@ -102,10 +102,10 @@ class StudentController extends Controller
         }
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request, $studentId)
     {
         try {
-            $student =  Student::find($id);
+            $student =  Student::find($studentId);
             $updatedData = $request->only($student->getFillable());
 
             $student->fill($updatedData)->save();
@@ -125,10 +125,10 @@ class StudentController extends Controller
         }
     }
 
-    public function delete(Request $request, $id)
+    public function delete(Request $request, $studentId)
     {
         try {
-            $student =  Student::destroy($id);
+            $student =  Student::destroy($studentId);
 
             return response()->json([
                 "success" => true,
