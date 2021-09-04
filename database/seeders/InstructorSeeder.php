@@ -19,7 +19,7 @@ class InstructorSeeder extends Seeder
             "lastname" => "test istructor",
             "email" => "test@gmail.com",
             "password" => "123456",
-            "status" => "active"
+            "status" => "activo"
         ]);
     }
 }

@@ -17,6 +17,7 @@ class PeriodSeeder extends Seeder
         DB::table('period')->insert([
             "value" => "2024-1",
             "status" => "active",
+            "instructorId" => 1,
         ]);
     }
 }

@@ -18,6 +18,8 @@ class Period extends Migration
             $table->string('value');
             $table->enum('status', ["active", "inactivo"])->default('active');
             $table->timestamps();
+            $table->unsignedBigInteger('instructorId');
+            $table->foreign('instructorId')->references('id')->on('instructor');
         });
     }
 

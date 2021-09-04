@@ -19,7 +19,7 @@ class Instructor extends Migration
             $table->string('lastname', 50);
             $table->string('email');
             $table->string('password');
-            $table->enum('status', ["active", "inactivo"])->default('active');
+            $table->enum('status', ["activo", "inactivo"])->default('activo');
             $table->timestamps();
         });
     }
