@@ -20,3 +20,5 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 
 Route::prefix('student')->group(__DIR__ . '/student/student.php');
+Route::prefix('instructor')->group(__DIR__ . '/instructor/instructor.php');
+Route::prefix('course')->group(__DIR__ . '/course/course.php');

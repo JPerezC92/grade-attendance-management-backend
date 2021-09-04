@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Student;
-use GrahamCampbell\ResultType\Success;
 use Illuminate\Http\Request;
 use Throwable;
 
