@@ -14,6 +14,9 @@ class CourseRecord extends Model
 
     protected $fillable = [
         'name',
+        'career',
+        'turn',
+        'group',
         'instructorId',
         'courseId',
         'periodId',

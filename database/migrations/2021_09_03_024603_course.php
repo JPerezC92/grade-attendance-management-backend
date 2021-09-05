@@ -16,8 +16,6 @@ class Course extends Migration
         Schema::create('course', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('campus');
-            $table->string('career');
             $table->timestamps();
             $table->unsignedBigInteger('instructorId');
             $table->foreign('instructorId')->references('id')->on('instructor');

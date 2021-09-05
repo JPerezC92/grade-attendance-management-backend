@@ -17,6 +17,9 @@ class CourseRecord extends Migration
             "courseRecord",
             function (Blueprint $table) {
                 $table->bigIncrements("id");
+                $table->string('career');
+                $table->string('turn');
+                $table->string('group');
                 $table->timestamps();
                 $table->unsignedBigInteger('instructorId');
                 $table->foreign('instructorId')->references('id')->on('instructor');

@@ -15,6 +15,9 @@ class CourseRecordSeeder extends Seeder
     public function run()
     {
         DB::table('courseRecord')->insert([
+            "career" => "Ingenieria de software",
+            "turn" => "mañana",
+            "group" => "A",
             "instructorId" => 1,
             "courseId" => 1,
             "periodId" => 1

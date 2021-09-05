@@ -5,19 +5,15 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Course extends Model
+class AttendanceCheck extends Model
 {
     use HasFactory;
-    protected $table = 'course';
+    protected $table = 'attendanceCheck';
     public $timestamps = true;
 
     protected $fillable = [
-        'name',
-        'instructorId',
+        'attendanceId',
+        'studentId',
+        'attendanceStatusId',
     ];
-
-    public function courseRecords()
-    {
-        return $this->hasMany(CourseRecord::class, "courseId");
-    }
 }
