@@ -14,6 +14,9 @@ class CourseRecord extends Model
 
     protected $fillable = [
         'name',
+        'instructorId',
+        'courseId',
+        'periodId',
     ];
 
     public function students()

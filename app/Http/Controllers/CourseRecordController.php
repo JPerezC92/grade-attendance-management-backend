@@ -2,72 +2,52 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\CourseRecord;
 use Illuminate\Http\Request;
+use Throwable;
 
 class CourseRecordController extends Controller
 {
-    public function index()
-    {
-        //
-    }
+
 
     public function create(Request $request)
     {
+        try {
+            $courseRecord = CourseRecord::create([
+                'instructorId' => $request->instructorId,
+                'courseId' => $request->courseId,
+                'periodId' => $request->periodId,
+            ]);
+
+            $courseRecord->fresh();
+
+            return response()->json([
+                "success" => true,
+                "payload" => $courseRecord
+            ]);
+        } catch (Throwable $e) {
+            return response(status: "500")->json([
+                "success" => false,
+                "message" => $e->getMessage()
+            ]);
+        }
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
+    public function getById(Request $request, $courseRecordId)
     {
-        //
-    }
+        try {
+            $courseRecord = CourseRecord::find($courseRecordId);
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
+            return response()->json([
+                "success" => true,
+                "payload" => $courseRecord
+            ]);
+        } catch (Throwable $e) {
+            return response(status: "500")->json([
+                "success" => false,
+                "message" => $e->getMessage()
+            ]);
+        }
     }
 }
