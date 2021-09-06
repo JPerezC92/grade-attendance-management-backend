@@ -15,8 +15,8 @@ class InstructorSeeder extends Seeder
     public function run()
     {
         DB::table('instructor')->insert([
-            "firstname" => "test istructor",
-            "lastname" => "test istructor",
+            "firstname" => "test isntructor",
+            "lastname" => "test isntructor",
             "email" => "test@gmail.com",
             "password" => "123456",
             "status" => "activo"
