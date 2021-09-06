@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use Attendance;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -19,6 +20,7 @@ class DatabaseSeeder extends Seeder
         $this->call(PeriodSeeder::class);
         $this->call(CourseRecordSeeder::class);
         $this->call(StudentSeeder::class);
+        $this->call(AttendanceSeeder::class);
         $this->call(AttendanceStatusSeeder::class);
     }
 }
