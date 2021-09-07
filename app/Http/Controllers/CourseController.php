@@ -26,18 +26,13 @@ class CourseController extends Controller
                 "payload" => $course
             ]);
         } catch (Throwable $e) {
-            return response()->json([
-                "success" => false,
-                "message" => $e->getMessage()
-            ]);
+            return response(content: $e->getMessage(), status: "500",);
         }
     }
 
-    public function geltAll(Request $request)
+    public function geltAll($instructorId)
     {
         try {
-            $instructorId = $request->instructorId;
-
             $courses =  Instructor::find($instructorId)->courses;
 
             return response()->json([
@@ -45,10 +40,7 @@ class CourseController extends Controller
                 "payload" => $courses
             ]);
         } catch (Throwable $e) {
-            return response()->json([
-                "success" => false,
-                "message" => $e->getMessage()
-            ]);
+            return response(content: $e->getMessage(), status: "500",);
         }
     }
 
@@ -57,18 +49,19 @@ class CourseController extends Controller
         try {
 
             $course =  Course::find($courseId);
-            $courseRecords =  Course::find($courseId)->courseRecords;
-            $course->courseRecords = $courseRecords;
+            $course->courseRecords;
+            $course->instructor;
+
+            foreach ($course->courseRecords as $index => $value) {
+                $value->period;
+            }
 
             return response()->json([
                 "success" => true,
                 "payload" => $course
             ]);
         } catch (Throwable $e) {
-            return response()->json([
-                "success" => false,
-                "message" => $e->getMessage()
-            ]);
+            return response(content: $e->getMessage(), status: "500",);
         }
     }
 
@@ -87,10 +80,7 @@ class CourseController extends Controller
                 "payload" => $course
             ]);
         } catch (Throwable $e) {
-            return response()->json([
-                "success" => false,
-                "message" => $e->getMessage()
-            ]);
+            return response(content: $e->getMessage(), status: "500",);
         }
     }
 
@@ -105,10 +95,7 @@ class CourseController extends Controller
                 "payload" => "Curso eliminado con exito"
             ]);
         } catch (Throwable $e) {
-            return response()->json([
-                "success" => false,
-                "message" => $e->getMessage()
-            ]);
+            return response(content: $e->getMessage(), status: "500",);
         }
     }
 }

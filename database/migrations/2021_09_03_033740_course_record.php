@@ -20,6 +20,7 @@ class CourseRecord extends Migration
                 $table->string('career');
                 $table->string('turn');
                 $table->string('group');
+                $table->string('semester');
                 $table->timestamps();
                 $table->unsignedBigInteger('instructorId');
                 $table->foreign('instructorId')->references('id')->on('instructor');

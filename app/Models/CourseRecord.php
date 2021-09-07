@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+
 class CourseRecord extends Model
 {
     use HasFactory;
@@ -30,5 +31,10 @@ class CourseRecord extends Model
     public function activities()
     {
         return $this->hasMany(Activity::class);
+    }
+
+    public function period()
+    {
+        return $this->belongsTo(Period::class, 'periodId');
     }
 }

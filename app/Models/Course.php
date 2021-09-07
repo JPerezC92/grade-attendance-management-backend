@@ -20,4 +20,9 @@ class Course extends Model
     {
         return $this->hasMany(CourseRecord::class, "courseId");
     }
+
+    public function instructor()
+    {
+        return $this->belongsTo(Instructor::class, "instructorId");
+    }
 }
