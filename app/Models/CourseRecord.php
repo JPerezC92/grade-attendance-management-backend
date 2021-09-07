@@ -25,12 +25,17 @@ class CourseRecord extends Model
 
     public function students()
     {
-        return $this->hasMany(Student::class);
+        return $this->hasMany(Student::class, 'courseRecordId');
     }
 
     public function activities()
     {
-        return $this->hasMany(Activity::class);
+        return $this->hasMany(Activity::class, 'courseRecordId');
+    }
+
+    public function attendances()
+    {
+        return $this->hasMany(Attendance::class, 'courseRecordId');
     }
 
     public function period()

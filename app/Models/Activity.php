@@ -19,6 +19,6 @@ class Activity extends Model
 
     public function scores()
     {
-        return $this->hasMany(Score::class);
+        return $this->hasMany(Score::class, 'activityId');
     }
 }

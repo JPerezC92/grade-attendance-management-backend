@@ -9,7 +9,6 @@ class Score extends Model
 {
     use HasFactory;
 
-
     protected $table = 'score';
     public $timestamps = false;
 

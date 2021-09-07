@@ -26,10 +26,7 @@ class CourseRecordController extends Controller
                 "payload" => $courseRecord
             ]);
         } catch (Throwable $e) {
-            return response(status: "500")->json([
-                "success" => false,
-                "message" => $e->getMessage()
-            ]);
+            return response(content: $e->getMessage(), status: "500",);
         }
     }
 
@@ -38,16 +35,21 @@ class CourseRecordController extends Controller
     {
         try {
             $courseRecord = CourseRecord::find($courseRecordId);
+            $courseRecord->period;
+            $courseRecord->students;
+            $courseRecord->activities;
+            $courseRecord->attendances;
+
+            foreach ($courseRecord->activities as $index => $value) {
+                $value->scores;
+            }
 
             return response()->json([
                 "success" => true,
                 "payload" => $courseRecord
             ]);
         } catch (Throwable $e) {
-            return response(status: "500")->json([
-                "success" => false,
-                "message" => $e->getMessage()
-            ]);
+            return response(content: $e->getMessage(), status: "500",);
         }
     }
 }

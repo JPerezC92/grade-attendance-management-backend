@@ -18,6 +18,34 @@ class CourseRecordSeeder extends Seeder
             "career" => "Ingenieria de software",
             "turn" => "mañana",
             "group" => "A",
+            "semester" => "6",
+            "instructorId" => 1,
+            "courseId" => 1,
+            "periodId" => 1
+        ]);
+        DB::table('courseRecord')->insert([
+            "career" => "Ingenieria de software",
+            "turn" => "mañana",
+            "group" => "B",
+            "semester" => "6",
+            "instructorId" => 1,
+            "courseId" => 1,
+            "periodId" => 1
+        ]);
+        DB::table('courseRecord')->insert([
+            "career" => "Ingenieria de software",
+            "turn" => "mañana",
+            "group" => "C",
+            "semester" => "6",
+            "instructorId" => 1,
+            "courseId" => 1,
+            "periodId" => 1
+        ]);
+        DB::table('courseRecord')->insert([
+            "career" => "Ingenieria de software",
+            "turn" => "mañana",
+            "group" => "D",
+            "semester" => "6",
             "instructorId" => 1,
             "courseId" => 1,
             "periodId" => 1

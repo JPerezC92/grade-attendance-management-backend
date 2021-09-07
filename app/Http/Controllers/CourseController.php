@@ -54,6 +54,9 @@ class CourseController extends Controller
 
             foreach ($course->courseRecords as $index => $value) {
                 $value->period;
+                if ($value->period->status === "inactive") {
+                    unset($course->courseRecords[$index]);
+                }
             }
 
             return response()->json([
