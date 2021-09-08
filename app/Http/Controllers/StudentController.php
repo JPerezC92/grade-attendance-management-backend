@@ -24,10 +24,7 @@ class StudentController extends Controller
                 "payload" => $student
             ]);
         } catch (Throwable $e) {
-            return response(status: "500")->json([
-                "success" => false,
-                "message" => $e->getMessage()
-            ]);
+            return response(content: $e->getMessage(), status: "500",);
         }
     }
 
@@ -56,10 +53,7 @@ class StudentController extends Controller
             ]);
         } catch (Throwable $e) {
 
-            return response(status: "500")->json([
-                "success" => false,
-                "message" => $e->getMessage()
-            ]);
+            return response(content: $e->getMessage(), status: "500",);
         }
     }
 
@@ -73,10 +67,7 @@ class StudentController extends Controller
                 "payload" => $students
             ]);
         } catch (Throwable $e) {
-            return response(status: "500")->json([
-                "success" => false,
-                "message" => $e->getMessage()
-            ]);
+            return response(content: $e->getMessage(), status: "500",);
         }
     }
 
@@ -92,10 +83,7 @@ class StudentController extends Controller
                 "payload" => $student
             ]);
         } catch (Throwable $e) {
-            return response(status: "500")->json([
-                "success" => false,
-                "message" => $e->getMessage()
-            ]);
+            return response(content: $e->getMessage(), status: "500",);
         }
     }
 
@@ -113,10 +101,7 @@ class StudentController extends Controller
                 "message" => $student
             ]);
         } catch (Throwable $e) {
-            return response(status: "500")->json([
-                "success" => false,
-                "message" => $e->getMessage()
-            ]);
+            return response(content: $e->getMessage(), status: "500",);
         }
     }
 
@@ -130,10 +115,7 @@ class StudentController extends Controller
                 "payload" => "Elimininado con exito"
             ]);
         } catch (Throwable $e) {
-            return response(status: "500")->json([
-                "success" => false,
-                "message" => $e->getMessage()
-            ]);
+            return response(content: $e->getMessage(), status: "500",);
         }
     }
 }

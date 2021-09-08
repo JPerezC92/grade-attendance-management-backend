@@ -24,4 +24,9 @@ class Instructor extends Model
     {
         return $this->hasMany(Course::class, "instructorId");
     }
+
+    public function periods()
+    {
+        return $this->hasMany(Period::class, "instructorId");
+    }
 }
