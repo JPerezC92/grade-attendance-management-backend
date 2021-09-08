@@ -30,9 +30,13 @@ class CourseController extends Controller
         }
     }
 
-    public function geltAll($instructorId)
+    public function geltAll(Request $request)
     {
         try {
+            $instructorId = $request->query("instructorId");
+
+            $courses =  Instructor::find($instructorId)->courses;
+            $instructorId = $request->instructorId;
             $courses =  Instructor::find($instructorId)->courses;
 
             return response()->json([

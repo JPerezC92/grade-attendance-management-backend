@@ -15,4 +15,9 @@ class Attendance extends Model
         'date',
         'courseRecordId',
     ];
+
+    public function attendanceChecks()
+    {
+        return $this->hasMany(AttendanceCheck::class, 'attendanceId');
+    }
 }

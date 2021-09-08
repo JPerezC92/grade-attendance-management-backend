@@ -18,6 +18,7 @@ class CourseRecord extends Model
         'career',
         'turn',
         'group',
+        'semester',
         'instructorId',
         'courseId',
         'periodId',

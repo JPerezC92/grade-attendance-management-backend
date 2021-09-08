@@ -16,4 +16,9 @@ class Score extends Model
         'name',
         'activityId',
     ];
+
+    public function scoresAssigned()
+    {
+        return $this->hasMany(ScoreAssigned::class, 'scoreId');
+    }
 }

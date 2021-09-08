@@ -14,12 +14,17 @@ class CourseRecordController extends Controller
     {
         try {
             $courseRecord = CourseRecord::create([
+                'career' => $request->career,
+                'turn' => $request->turn,
+                'group' => $request->group,
+                'semester' => $request->semester,
                 'instructorId' => $request->instructorId,
                 'courseId' => $request->courseId,
                 'periodId' => $request->periodId,
             ]);
 
             $courseRecord->fresh();
+            $courseRecord->period;
 
             return response()->json([
                 "success" => true,
@@ -40,8 +45,16 @@ class CourseRecordController extends Controller
             $courseRecord->activities;
             $courseRecord->attendances;
 
-            foreach ($courseRecord->activities as $index => $value) {
-                $value->scores;
+            foreach ($courseRecord->activities as $index => $activitiesValue) {
+                $activitiesValue->scores;
+
+                foreach ($activitiesValue->scores as $index => $scoresValue) {
+                    $scoresValue->scoresAssigned;
+                }
+            }
+
+            foreach ($courseRecord->attendances as $index => $value) {
+                $value->attendanceChecks;
             }
 
             return response()->json([
