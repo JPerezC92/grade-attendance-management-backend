@@ -16,7 +16,7 @@ class Period extends Migration
         Schema::create('period', function (Blueprint $table) {
             $table->bigIncrements("id");
             $table->string('value');
-            $table->enum('status', ["active", "inactivo"])->default('active');
+            $table->enum('status', ["activo", "inactivo"])->default('activo');
             $table->timestamps();
             $table->unsignedBigInteger('instructorId');
             $table->foreign('instructorId')->references('id')->on('instructor');

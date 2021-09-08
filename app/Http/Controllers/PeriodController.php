@@ -30,10 +30,29 @@ class PeriodController extends Controller
         try {
             $period = Period::create([
                 "value" => $request->value,
-                "status" => "active",
                 "instructorId" => $request->instructorId
             ]);
 
+            $period = Period::find($period->id);
+
+            return response()->json([
+                "success" => true,
+                "payload" => $period
+            ]);
+        } catch (Throwable $e) {
+            return response(content: $e->getMessage(), status: "500",);
+        }
+    }
+
+    public function update(Request $request)
+    {
+        try {
+            $period = Period::find($request->id);
+            $updatedData = $request->only($period->getFillable);
+
+            $period->fill($updatedData)->save();
+
+            $period->fresh();
             return response()->json([
                 "success" => true,
                 "payload" => $period
