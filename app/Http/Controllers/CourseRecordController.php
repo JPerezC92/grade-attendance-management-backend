@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Activity;
 use App\Models\CourseRecord;
+use App\Models\ScoreAssigned;
 use Illuminate\Http\Request;
 use Throwable;
 
@@ -45,6 +47,54 @@ class CourseRecordController extends Controller
             $courseRecord->activities;
             $courseRecord->attendances;
 
+            $activities = Activity::all();
+            $scoresCalculation = [];
+            $finalScore = 0;
+            // Calculate scores
+            foreach ($courseRecord->students as $index => $studentValue) {
+                $promedio = [];
+
+                $activityData = [];
+                foreach ($activities as $index => $activityValue) {
+
+                    $notas = ScoreAssigned::where([['studentId', "=", $studentValue->id], ['activityId', "=", $activityValue->id]])->get();
+                    $average = 0;
+                    foreach ($notas as $index => $notaValue) {
+                        $average += $notaValue->value;
+                    }
+
+                    if (count($notas) > 1) {
+                        $average = $average / count($notas);
+                    }
+
+                    $finalScore += $average * $activityValue->value / 100;
+                    $finalScore = round($finalScore, 2);
+
+                    array_push($activityData, [
+                        "average" => $average,
+                        "activityId" => $activityValue->id,
+                        "value" => $activityValue->value
+                    ]);
+                }
+
+                $promedio = [
+                    "studentId" => $studentValue->id,
+                    "activities" => $activityData,
+                    "finalScore" => $finalScore,
+                    "finalScoreRounded" => round($finalScore, 0, PHP_ROUND_HALF_UP)
+                ];
+
+                $finalScore = 0;
+
+                array_push(
+                    $scoresCalculation,
+                    $promedio
+                );
+            }
+
+            $courseRecord["scoresCalculation"] = $scoresCalculation;
+
+            // Activity details
             foreach ($courseRecord->activities as $index => $activitiesValue) {
                 $activitiesValue->scores;
 

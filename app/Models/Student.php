@@ -19,4 +19,9 @@ class Student extends Model
         'studentCode',
         'courseRecordId'
     ];
+
+    public function scoresAssigned()
+    {
+        return $this->hasMany(ScoreAssigned::class, 'studentId');
+    }
 }

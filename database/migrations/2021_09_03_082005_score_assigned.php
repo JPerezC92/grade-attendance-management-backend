@@ -21,6 +21,8 @@ class ScoreAssigned extends Migration
             $table->foreign('scoreId')->references('id')->on('score');
             $table->unsignedBigInteger('studentId');
             $table->foreign('studentId')->references('id')->on('student');
+            $table->unsignedBigInteger('activityId');
+            $table->foreign('activityId')->references('id')->on('activity');
         });
     }
 

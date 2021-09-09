@@ -2,7 +2,6 @@
 
 namespace Database\Seeders;
 
-use Attendance;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -23,6 +22,7 @@ class DatabaseSeeder extends Seeder
         $this->call(AttendanceSeeder::class);
         $this->call(ActivitySeeder::class);
         $this->call(ScoreSeeder::class);
+        $this->call(ScoreAssigned::class);
         $this->call(AttendanceStatusSeeder::class);
     }
 }
