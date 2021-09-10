@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Student;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use ScoreAssigned;
 use Throwable;
 
 class StudentController extends Controller
@@ -15,6 +17,7 @@ class StudentController extends Controller
                 "firstname" => $request->firstname,
                 "lastname" => $request->lastname,
                 "studentCode" => $request->studentCode,
+                "courseRecordId" => $request->courseRecordId,
             ]);
 
             $student->fresh();
@@ -98,7 +101,7 @@ class StudentController extends Controller
 
             return response()->json([
                 "success" => true,
-                "message" => $student
+                "payload" => $student
             ]);
         } catch (Throwable $e) {
             return response(content: $e->getMessage(), status: "500",);
@@ -108,6 +111,8 @@ class StudentController extends Controller
     public function delete(Request $request, $studentId)
     {
         try {
+            DB::table('scoreAssigned')->where('studentId', '=', $studentId)->delete();
+            DB::table('attendanceCheck')->where('studentId', '=', $studentId)->delete();
             $student =  Student::destroy($studentId);
 
             return response()->json([
