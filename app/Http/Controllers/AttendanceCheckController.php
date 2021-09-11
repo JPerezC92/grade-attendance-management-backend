@@ -24,10 +24,7 @@ class AttendanceCheckController extends Controller
                 "payload" => $attendanceCheck
             ]);
         } catch (Throwable $e) {
-            return response(status: "500")->json([
-                "success" => false,
-                "message" => $e->getMessage()
-            ]);
+            return response(content: $e->getMessage(), status: "500",);
         }
     }
 }

@@ -60,6 +60,45 @@ class StudentController extends Controller
         }
     }
 
+    public function createFromCSVFile(Request $request)
+    {
+        try {
+
+            $studentsCsvFile = $request->file("studentsCsvFile");
+            $studentsCsvText = file_get_contents($studentsCsvFile);
+            $studentsCsvTextWithoutLineBreak = preg_replace('/(\r\n|\n|\r)/', '-', $studentsCsvText);
+            $studentsCsvArray = explode("-", $studentsCsvTextWithoutLineBreak);
+            $studentsToSave = [];
+            for ($i = 0; $i < (count($studentsCsvArray) - 1); $i++) {
+                $student =  explode(";", $studentsCsvArray[$i]);
+                array_push($studentsToSave, [
+                    "studentCode" => preg_replace('/[\x00-\x1F\x80-\xFF]/', '', trim($student[0])),
+                    "firstname" => preg_replace('/[\x00-\x1F\x80-\xFF]/', '', trim($student[1])),
+                    "lastname" => preg_replace('/[\x00-\x1F\x80-\xFF]/', '', trim($student[2]))
+                ]);
+            }
+            $students = [];
+
+            foreach ((array)$studentsToSave as $index => $data) {
+                $student =  Student::create([
+                    "firstname" => $data["firstname"],
+                    "lastname" => $data["lastname"],
+                    "studentCode" => $data["studentCode"],
+                    "courseRecordId" => 1,
+                ]);
+                $student->fresh();
+                array_push($students, $student);
+            }
+
+            return response()->json([
+                "success" => true,
+                "payload" => $students
+            ]);
+        } catch (Throwable $e) {
+            return response(content: $e->getMessage(), status: "500",);
+        }
+    }
+
     public function getAll(Request $request)
     {
         try {

@@ -31,10 +31,7 @@ class InstructorController extends Controller
                 "payload" => $instructor
             ]);
         } catch (Throwable $e) {
-            return response()->json([
-                "success" => false,
-                "message" => $e->getMessage()
-            ]);
+            return response(content: $e->getMessage(), status: "500",);
         }
     }
 
