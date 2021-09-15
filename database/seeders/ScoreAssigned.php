@@ -55,6 +55,14 @@ class ScoreAssigned extends Seeder
                 'activityId' => 4,
             ]
         );
+        DB::table('scoreAssigned')->insert(
+            [
+                'value' => 10,
+                'scoreId' => 6,
+                'studentId' => 1,
+                'activityId' => 4,
+            ]
+        );
 
         // Student 2
         DB::table('scoreAssigned')->insert(

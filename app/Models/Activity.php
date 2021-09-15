@@ -10,10 +10,11 @@ class Activity extends Model
     use HasFactory;
 
     protected $table = 'activity';
-    public $timestamps = false;
+    public $timestamps = true;
 
     protected $fillable = [
         'name',
+        'value',
         'courseRecordId',
     ];
 

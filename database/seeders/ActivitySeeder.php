@@ -16,22 +16,22 @@ class ActivitySeeder extends Seeder
     {
         DB::table('activity')->insert([
             'name' => 'Actividades entregables',
-            'value' => '20',
+            'value' => '10',
             'courseRecordId' => 1,
         ]);
         DB::table('activity')->insert([
             'name' => 'Foro tematico',
-            'value' => '20',
+            'value' => '10',
             'courseRecordId' => 1,
         ]);
         DB::table('activity')->insert([
             'name' => 'Test de autoevaluacion',
-            'value' => '20',
+            'value' => '10',
             'courseRecordId' => 1,
         ]);
         DB::table('activity')->insert([
             'name' => 'Examen final',
-            'value' => '20',
+            'value' => '70',
             'courseRecordId' => 1,
         ]);
     }

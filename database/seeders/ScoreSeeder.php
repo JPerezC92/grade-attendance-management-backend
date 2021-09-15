@@ -27,6 +27,10 @@ class ScoreSeeder extends Seeder
             'activityId' => 2
         ]);
         DB::table('score')->insert([
+            'name' => 'n2',
+            'activityId' => 2
+        ]);
+        DB::table('score')->insert([
             'name' => 'n1',
             'activityId' => 3
         ]);
