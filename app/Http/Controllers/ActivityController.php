@@ -90,6 +90,15 @@ class ActivityController extends Controller
             $activity =  Activity::find($activityId);
 
             $updatedData = $request->only($activity->getFillable());
+            if ($request->scoresQuantity !== count($activity->scores)) {
+                DB::table("score")->where("activityId", "=", $activity->id)->delete();
+                for ($i = 0; $i < $request->scoresQuantity; $i++) {
+                    Score::create([
+                        "name" => "n" . ($i + 1),
+                        "activityId" => $activity->id
+                    ]);
+                }
+            }
 
             $activity->fill($updatedData)->save();
             $activity->fresh();
@@ -103,12 +112,7 @@ class ActivityController extends Controller
         }
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+
     public function delete($activityId)
     {
         try {

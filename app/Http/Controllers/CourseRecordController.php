@@ -97,6 +97,7 @@ class CourseRecordController extends Controller
             // Activity details
             foreach ($courseRecord->activities as $index => $activitiesValue) {
                 $activitiesValue->scores;
+                $activitiesValue["scoresQuantity"] = count($activitiesValue->scores);
 
                 foreach ($activitiesValue->scores as $index => $scoresValue) {
                     $scoresValue->scoresAssigned;

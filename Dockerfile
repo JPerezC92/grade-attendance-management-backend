@@ -8,6 +8,7 @@ COPY . /api
 
 RUN wget https://raw.githubusercontent.com/composer/getcomposer.org/c19391050a3d81f65e61049ebc30dbd4f5a99603/web/installer -O - -q | php -- --quiet 
 RUN mv composer.phar /usr/local/bin/composer
+RUN apk add bash
 RUN apk add git
 RUN apk add nano
 
