@@ -23,6 +23,6 @@ class Course extends Model
 
     public function instructor()
     {
-        return $this->belongsTo(Instructor::class, "instructorId");
+        return $this->belongsTo(User::class, "instructorId");
     }
 }

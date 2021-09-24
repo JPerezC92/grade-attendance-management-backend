@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AuthController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -18,6 +19,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+Route::prefix('auth')->group(__DIR__ . '/auth/auth.php');
 
 Route::prefix('student')->group(__DIR__ . '/student/student.php');
 Route::prefix('instructor')->group(__DIR__ . '/instructor/instructor.php');

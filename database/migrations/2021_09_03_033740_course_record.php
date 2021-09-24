@@ -23,7 +23,7 @@ class CourseRecord extends Migration
                 $table->string('semester');
                 $table->timestamps();
                 $table->unsignedBigInteger('instructorId');
-                $table->foreign('instructorId')->references('id')->on('instructor');
+                $table->foreign('instructorId')->references('id')->on('users');
                 $table->unsignedBigInteger('courseId');
                 $table->foreign('courseId')->references('id')->on('course');
                 $table->unsignedBigInteger('periodId');

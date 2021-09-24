@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Instructor;
 use App\Models\Period;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Throwable;
 
@@ -14,7 +14,7 @@ class PeriodController extends Controller
         try {
             $instructorId = $request->query("instructorId");
 
-            $periods = Instructor::find($instructorId)->periods;
+            $periods = User::find($instructorId)->periods;
 
             return response()->json([
                 "success" => true,

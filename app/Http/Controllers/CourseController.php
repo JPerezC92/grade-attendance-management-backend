@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Course;
-use App\Models\Instructor;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Throwable;
 
@@ -35,9 +35,7 @@ class CourseController extends Controller
         try {
             $instructorId = $request->query("instructorId");
 
-            $courses =  Instructor::find($instructorId)->courses;
-            $instructorId = $request->instructorId;
-            $courses =  Instructor::find($instructorId)->courses;
+            $courses =  User::find($instructorId)->courses;
 
             return response()->json([
                 "success" => true,

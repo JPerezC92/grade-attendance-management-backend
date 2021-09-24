@@ -2,21 +2,28 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Instructor;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Throwable;
 
 class InstructorController extends Controller
 {
-    public function index()
+    public function getByToken(Request $request)
     {
-        //
+        try {
+            return response()->json([
+                "success" => true,
+                "payload" => $request->user()
+            ]);
+        } catch (Throwable $e) {
+            return response(content: $e->getMessage(), status: "500",);
+        }
     }
 
     public function create(Request $request)
     {
         try {
-            $instructor =  Instructor::create([
+            $instructor =  User::create([
                 "firstname" => $request->firstname,
                 "lastname" => $request->lastname,
                 "email" => $request->email,

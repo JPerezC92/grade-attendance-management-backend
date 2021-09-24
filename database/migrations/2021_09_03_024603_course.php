@@ -18,7 +18,7 @@ class Course extends Migration
             $table->string('name');
             $table->timestamps();
             $table->unsignedBigInteger('instructorId');
-            $table->foreign('instructorId')->references('id')->on('instructor');
+            $table->foreign('instructorId')->references('id')->on('users');
         });
     }
 
