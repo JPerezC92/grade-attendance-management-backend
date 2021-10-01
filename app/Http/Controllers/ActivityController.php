@@ -91,10 +91,11 @@ class ActivityController extends Controller
 
             $updatedData = $request->only($activity->getFillable());
             if ($request->scoresQuantity !== count($activity->scores)) {
+                DB::table("scoreAssigned")->where("activityId", "=", $activity->id)->delete();
                 DB::table("score")->where("activityId", "=", $activity->id)->delete();
                 for ($i = 0; $i < $request->scoresQuantity; $i++) {
                     Score::create([
-                        "name" => "n" . ($i + 1),
+                        "name" => "N" . ($i + 1),
                         "activityId" => $activity->id
                     ]);
                 }

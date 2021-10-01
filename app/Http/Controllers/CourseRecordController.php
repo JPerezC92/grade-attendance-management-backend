@@ -41,7 +41,7 @@ class CourseRecordController extends Controller
     public function getById(Request $request, $courseRecordId)
     {
         try {
-            $courseRecord = CourseRecord::find($courseRecordId);
+            $courseRecord = CourseRecord::with('students')->find($courseRecordId);
             $courseRecord->period;
             $courseRecord->students;
             $courseRecord->activities;
@@ -71,7 +71,7 @@ class CourseRecordController extends Controller
                     $finalScore = round($finalScore, 2);
 
                     array_push($activityData, [
-                        "average" => $average,
+                        "average" =>  round($average, 2),
                         "activityId" => $activityValue->id,
                         "value" => $activityValue->value
                     ]);
