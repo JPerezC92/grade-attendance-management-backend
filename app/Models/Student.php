@@ -24,4 +24,9 @@ class Student extends Model
     {
         return $this->hasMany(ScoreAssigned::class, 'studentId');
     }
+
+    public function attendancesCheck()
+    {
+        return $this->hasMany(AttendanceCheck::class, 'studentId');
+    }
 }

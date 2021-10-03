@@ -21,7 +21,7 @@ class AttendanceCheck extends Migration
             $table->foreign('attendanceId')->references('id')->on('attendance');
             $table->unsignedBigInteger('studentId');
             $table->foreign('studentId')->references('id')->on('student');
-            $table->unsignedBigInteger('attendanceStatusId');
+            $table->unsignedBigInteger('attendanceStatusId')->nullable();
             $table->foreign('attendanceStatusId')->references('id')->on('attendanceStatus');
         });
     }

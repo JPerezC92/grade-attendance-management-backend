@@ -61,11 +61,6 @@ class ScoreController extends Controller
                 ->leftJoin('student', 'student.id', '=', 'scoreAssigned.studentId')
                 ->select("student.firstname", "student.lastname", "scoreAssigned.*")
                 ->get();
-            // $student =  Student::find($studentId);
-            // $updatedData = $request->only($student->getFillable());
-
-            // $student->fill($updatedData)->save();
-            // $student->fresh();
 
             return response()->json([
                 "success" => true,
