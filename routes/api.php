@@ -30,4 +30,4 @@ Route::prefix('attendance')->group(__DIR__ . '/attendance/attendance.php');
 Route::prefix('attendance-check')->group(__DIR__ . '/attendanceCheck/attendanceCheck.php');
 Route::prefix('activity')->group(__DIR__ . '/activity/activity.php');
 Route::prefix('scores')->group(__DIR__ . '/scores/scores.php');
-Route::prefix('scoresAssigned')->group(__DIR__ . '/scoresAssigned/scoresAssigned.php');
+Route::prefix('scores-assigned')->group(__DIR__ . '/scoresAssigned/scoresAssigned.php');

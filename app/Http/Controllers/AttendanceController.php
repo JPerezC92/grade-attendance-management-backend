@@ -11,6 +11,41 @@ use Throwable;
 
 class AttendanceController extends Controller
 {
+    public function getById(Request $request, $attendanceId)
+    {
+        try {
+
+            $attendanceStates = DB::table('attendanceStatus')->orderBy("id")->get();
+            $attendanceCheck = DB::table('attendance')
+                ->where("attendance.id", $attendanceId)
+                ->join("student", "student.courseRecordId", "=", "attendance.courseRecordId")
+                ->join("attendanceCheck", function ($join) {
+                    $join->on("student.id", "=", "attendanceCheck.studentId");
+                    $join->on("attendanceCheck.attendanceId", "=", "attendance.id");
+                })
+                // ->join("attendanceStatus", "attendanceStatus.id", "=", "attendanceCheck.attendanceStatusId")
+                ->select(
+                    "attendance.*",
+                    "student.firstname",
+                    "student.lastname",
+                    "student.id as studentId",
+                    "attendanceCheck.*",
+                    // "attendanceStatus.value as attendanceStatusValue"
+                )
+                ->get();
+
+            return response()->json([
+                "success" => true,
+                "payload" =>  [
+                    "attendancesCheck" => $attendanceCheck,
+                    "attendanceStates" => $attendanceStates
+                ]
+            ]);
+        } catch (Throwable $e) {
+            return response(content: $e->getMessage(), status: "500",);
+        }
+    }
+
     public function create(Request $request)
     {
         try {

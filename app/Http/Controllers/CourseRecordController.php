@@ -117,12 +117,16 @@ class CourseRecordController extends Controller
             $courseRecordEntity = CourseRecord::with("activities", "attendances", "activities.scores")->find($courseRecordId);
             $courseRecordOject = ["courseRecord" => $courseRecordEntity->attributesToArray()];
             $activitiesArray = $courseRecordEntity->activities->toArray();
+
+            foreach ($activitiesArray as $key => $activityValue) {
+                $activitiesArray[$key]["scoresQuantity"] = count($activityValue["scores"]);
+            }
+
             $attendances = $courseRecordEntity->attendances->toArray();
             $activitiesArray2  = (array)clone (object)$activitiesArray;
 
             foreach ($activitiesArray2 as $key => $activityValue) {
                 $activitiesArray2[$key]["scoresAssigned"] = [];
-                $activitiesArray2[$key]["scoresQuantity"] = count($activitiesArray2[$key]["scores"]);
                 unset($activitiesArray2[$key]["scores"]);
             }
 
@@ -168,10 +172,6 @@ class CourseRecordController extends Controller
                     DB::raw("(SELECT attendanceStatus.value FROM attendanceStatus WHERE attendanceStatus.id = attendanceCheck.attendanceStatusId) as attendanceStatusValue")
                 )
                 ->get();
-            // $attendancesCheck = AttendanceCheck::with("attendanceStatus")->whereIn("attendanceCheck.studentId", $studentsIds)
-            //     ->select("attendanceCheck.*")
-            //     ->get();
-
 
             $scoresAssigned = ScoreAssigned::whereIn("scoreAssigned.studentId", $studentsIds)
                 ->select("scoreAssigned.*")
@@ -203,20 +203,16 @@ class CourseRecordController extends Controller
                     $average = $average / $scoresQuantity;
                     $studentValue->activities[$activitiesKey]["average"] = round($average, 2);
 
-                    // print_r($average * $activityValues["value"] / 100);
-                    // print_r("*");
                     $finalScore += $average * $activityValues["value"] / 100;
                 }
                 $studentsArr[$studentsArrKey]->finalScore = $finalScore;
                 $studentsArr[$studentsArrKey]->finalScoreRounded = round($finalScore, 0, PHP_ROUND_HALF_UP);
-                // print_r("******************");
             }
 
             $courseRecordOject["students"] = $studentsArr;
 
             return response()->json([
                 "success" => true,
-                // "payload" => $courseRecord
                 "payload" => $courseRecordOject
             ]);
         } catch (Throwable $e) {
