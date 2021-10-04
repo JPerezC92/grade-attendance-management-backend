@@ -149,12 +149,14 @@ class CourseRecordController extends Controller
 
             $studentsIds = [];
             foreach ($studentsArr as $key => $studentValue) {
+                $attendedAverage = $studentValue->attendancesQuantity ? ((($studentValue->attended + $studentValue->late) / $studentValue->attendancesQuantity) * 100) : 0;
+                $attendedAverage = round($attendedAverage, 0, PHP_ROUND_HALF_UP);
                 $studentValue->attendances = [
                     "attendancesCheck" => [],
                     "attended" => $studentValue->attended,
                     "late" => $studentValue->late,
                     "skip" => $studentValue->skip,
-                    "attendedAverage" => $studentValue->attendancesQuantity ? ((($studentValue->attended + $studentValue->late) / $studentValue->attendancesQuantity) * 100) : 0
+                    "attendedAverage" => $attendedAverage
                 ];
 
                 $studentsArr[$key]->activities = (array)clone (object)$activitiesArray2;

@@ -49,67 +49,38 @@ class StudentController extends Controller
     }
 
 
-    // public function createFromCSV(Request $request)
-    // {
-    //     try {
 
-    //         $studentArr = json_decode($request->getContent());
-
-    //         $students = [];
-
-    //         foreach ((array)$studentArr as $index => $data) {
-    //             $student =  Student::create([
-    //                 "firstname" => $data->firstname,
-    //                 "lastname" => $data->lastname,
-    //                 "studentCode" => $data->studentCode,
-    //             ]);
-    //             $student->fresh();
-    //             array_push($students, $student);
-    //         }
-
-    //         return response()->json([
-    //             "success" => true,
-    //             "payload" => $students
-    //         ]);
-    //     } catch (Throwable $e) {
-
-    //         return response(content: $e->getMessage(), status: "500",);
-    //     }
-    // }
 
     public function createFromCSVFile(Request $request)
     {
         try {
+            $courseRecordId = $request->query("courseRecordId");
+
+            $reader = new \PhpOffice\PhpSpreadsheet\Reader\Xlsx();
+            $reader->setReadDataOnly(true);
 
             $studentsCsvFile = $request->file("studentsCsvFile");
-            $studentsCsvText = file_get_contents($studentsCsvFile);
-            $studentsCsvTextWithoutLineBreak = preg_replace('/(\r\n|\n|\r)/', '-', $studentsCsvText);
-            $studentsCsvArray = explode("-", $studentsCsvTextWithoutLineBreak);
-            $studentsToSave = [];
-            for ($i = 0; $i < (count($studentsCsvArray) - 1); $i++) {
-                $student =  explode(";", $studentsCsvArray[$i]);
-                array_push($studentsToSave, [
-                    "studentCode" => preg_replace('/[\x00-\x1F\x80-\xFF]/', '', trim($student[0])),
-                    "firstname" => preg_replace('/[\x00-\x1F\x80-\xFF]/', '', trim($student[1])),
-                    "lastname" => preg_replace('/[\x00-\x1F\x80-\xFF]/', '', trim($student[2]))
-                ]);
-            }
-            $students = [];
+            $spreadsheet = $reader->load($studentsCsvFile);
+            $worksheet = $spreadsheet->getActiveSheet();
+            $rows = $worksheet->toArray();
+            unset($rows[0]);
 
-            foreach ((array)$studentsToSave as $index => $data) {
-                $student =  Student::create([
-                    "firstname" => $data["firstname"],
-                    "lastname" => $data["lastname"],
-                    "studentCode" => $data["studentCode"],
-                    "courseRecordId" => 1,
+            $studentsToSave = [];
+
+            foreach ((array)$rows as $index => $data) {
+                array_push($studentsToSave, [
+                    "studentCode" => $rows[$index][0],
+                    "lastname" => $rows[$index][1],
+                    "firstname" => $rows[$index][2],
+                    "courseRecordId" => $courseRecordId,
                 ]);
-                $student->fresh();
-                array_push($students, $student);
             }
+
+            $students =  Student::upsert($studentsToSave, ["id", "courseRecordId"], ["studentCode"]);
 
             return response()->json([
                 "success" => true,
-                "payload" => $students
+                "payload" => "Estudiantes creados satisfactoriamente"
             ]);
         } catch (Throwable $e) {
             return response(content: $e->getMessage(), status: "500",);

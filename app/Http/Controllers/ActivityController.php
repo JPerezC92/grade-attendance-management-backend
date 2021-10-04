@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Activity;
 use App\Models\Score;
+use App\Models\ScoreAssigned;
+use App\Models\Student;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Throwable;
@@ -14,26 +16,42 @@ class ActivityController extends Controller
     public function create(Request $request)
     {
         try {
+            $courseRecordId = $request->courseRecordId;
+
             $activity =  Activity::create([
                 "name" => $request->name,
                 "value" => $request->value,
-                "courseRecordId" => $request->courseRecordId,
+                "courseRecordId" => $courseRecordId,
             ]);
 
             $activity->fresh();
 
-            for ($i = 0; $i < $request->scoresQuantity; $i++) {
-                Score::create([
-                    "name" => "n" . ($i + 1),
-                    "activityId" => $activity->id
+            $score = Score::create([
+                "name" => "N1",
+                "activityId" => $activity->id
+            ]);
+
+            $score->fresh();
+
+            $students = Student::where("courseRecordId", $courseRecordId)->get()->toArray();
+
+            $scoreAssignedData = [];
+
+            foreach ($students as $key => $value) {
+                array_push($scoreAssignedData, [
+                    "value" => 0,
+                    "scoreId" => $score->id,
+                    "studentId" => $students[$key]["id"],
+                    "activityId" => $activity->id,
                 ]);
             }
 
-            $activity->scores;
-
-            foreach ($activity->scores as $index => $scoreValue) {
-                $scoreValue->scoresAssigned;
-            }
+            ScoreAssigned::upsert($scoreAssignedData, [
+                "id",
+                "scoreId",
+                "studentId",
+                "activityId"
+            ], ["value"]);
 
             return response()->json([
                 "success" => true,
@@ -44,62 +62,13 @@ class ActivityController extends Controller
         }
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, $activityId)
     {
         try {
             $activity =  Activity::find($activityId);
 
             $updatedData = $request->only($activity->getFillable());
-            if ($request->scoresQuantity !== count($activity->scores)) {
-                DB::table("scoreAssigned")->where("activityId", "=", $activity->id)->delete();
-                DB::table("score")->where("activityId", "=", $activity->id)->delete();
-                for ($i = 0; $i < $request->scoresQuantity; $i++) {
-                    Score::create([
-                        "name" => "N" . ($i + 1),
-                        "activityId" => $activity->id
-                    ]);
-                }
-            }
+
 
             $activity->fill($updatedData)->save();
             $activity->fresh();
