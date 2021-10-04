@@ -118,6 +118,7 @@ class CourseRecordController extends Controller
             $courseRecordOject = ["courseRecord" => $courseRecordEntity->attributesToArray()];
             $activitiesArray = $courseRecordEntity->activities->toArray();
 
+
             foreach ($activitiesArray as $key => $activityValue) {
                 $activitiesArray[$key]["scoresQuantity"] = count($activityValue["scores"]);
             }
@@ -153,7 +154,7 @@ class CourseRecordController extends Controller
                     "attended" => $studentValue->attended,
                     "late" => $studentValue->late,
                     "skip" => $studentValue->skip,
-                    "attendedAverage" => ((($studentValue->attended + $studentValue->late) / $studentValue->attendancesQuantity) * 100)
+                    "attendedAverage" => $studentValue->attendancesQuantity ? ((($studentValue->attended + $studentValue->late) / $studentValue->attendancesQuantity) * 100) : 0
                 ];
 
                 $studentsArr[$key]->activities = (array)clone (object)$activitiesArray2;

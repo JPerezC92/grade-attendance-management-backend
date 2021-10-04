@@ -63,7 +63,6 @@ class AttendanceController extends Controller
                 array_push($attendanceCheckData, [
                     "studentId" => $studentValue["id"],
                     "attendanceId" => $attendance["id"],
-                    // "attendanceStatusId" => 1
                 ]);
             }
 

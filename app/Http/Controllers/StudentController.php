@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\AttendanceCheck;
 use App\Models\Student;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -22,6 +23,22 @@ class StudentController extends Controller
 
             $student->fresh();
 
+            $attendances =  DB::table('attendance')
+                ->where('attendance.courseRecordId', $student->courseRecordId)
+                ->get()
+                ->toArray();
+
+            $attendancesCheckData = [];
+
+            foreach ($attendances as $key => $value) {
+                array_push($attendancesCheckData, [
+                    "studentId" => $student->id,
+                    "attendanceId" => $attendances[$key]->id
+                ]);
+            }
+
+            AttendanceCheck::insert($attendancesCheckData);
+
             return response()->json([
                 "success" => true,
                 "payload" => $student
@@ -32,33 +49,33 @@ class StudentController extends Controller
     }
 
 
-    public function createFromCSV(Request $request)
-    {
-        try {
+    // public function createFromCSV(Request $request)
+    // {
+    //     try {
 
-            $studentArr = json_decode($request->getContent());
+    //         $studentArr = json_decode($request->getContent());
 
-            $students = [];
+    //         $students = [];
 
-            foreach ((array)$studentArr as $index => $data) {
-                $student =  Student::create([
-                    "firstname" => $data->firstname,
-                    "lastname" => $data->lastname,
-                    "studentCode" => $data->studentCode,
-                ]);
-                $student->fresh();
-                array_push($students, $student);
-            }
+    //         foreach ((array)$studentArr as $index => $data) {
+    //             $student =  Student::create([
+    //                 "firstname" => $data->firstname,
+    //                 "lastname" => $data->lastname,
+    //                 "studentCode" => $data->studentCode,
+    //             ]);
+    //             $student->fresh();
+    //             array_push($students, $student);
+    //         }
 
-            return response()->json([
-                "success" => true,
-                "payload" => $students
-            ]);
-        } catch (Throwable $e) {
+    //         return response()->json([
+    //             "success" => true,
+    //             "payload" => $students
+    //         ]);
+    //     } catch (Throwable $e) {
 
-            return response(content: $e->getMessage(), status: "500",);
-        }
-    }
+    //         return response(content: $e->getMessage(), status: "500",);
+    //     }
+    // }
 
     public function createFromCSVFile(Request $request)
     {
