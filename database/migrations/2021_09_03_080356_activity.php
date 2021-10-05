@@ -19,7 +19,7 @@ class Activity extends Migration
             $table->integer("value");
             $table->timestamps();
             $table->unsignedBigInteger('courseRecordId');
-            $table->foreign('courseRecordId')->references('id')->on('courseRecord');
+            $table->foreign('courseRecordId')->references('id')->on('courseRecord')->onDelete('cascade');
         });
     }
 

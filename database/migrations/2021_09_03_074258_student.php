@@ -22,7 +22,7 @@ class Student extends Migration
                 $table->string("studentCode", 50);
                 $table->timestamps();
                 $table->unsignedBigInteger('courseRecordId');
-                $table->foreign('courseRecordId')->references('id')->on('courseRecord');
+                $table->foreign('courseRecordId')->references('id')->on('courseRecord')->onDelete("cascade");
             }
         );
     }

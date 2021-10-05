@@ -18,7 +18,7 @@ class Score extends Migration
             $table->string("name");
             $table->timestamps();
             $table->unsignedBigInteger('activityId');
-            $table->foreign('activityId')->references('id')->on('activity');
+            $table->foreign('activityId')->references('id')->on('activity')->onDelete('cascade');;
         });
     }
 

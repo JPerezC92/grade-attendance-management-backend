@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Course;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Throwable;
 
 class CourseController extends Controller
@@ -50,13 +51,13 @@ class CourseController extends Controller
     {
         try {
 
-            $course =  Course::find($courseId);
-            $course->courseRecords;
-            $course->instructor;
+            $course =  Course::with("instructor", "courseRecords")->find($courseId);
+            // $course =  Course::find($courseId);
+            // $course->courseRecords;
+            // $course->instructor;
 
             foreach ($course->courseRecords as $index => $value) {
-                $value->period;
-                if ($value->period->status === "inactive") {
+                if ($value->period->status === "inactivo") {
                     unset($course->courseRecords[$index]);
                 }
             }

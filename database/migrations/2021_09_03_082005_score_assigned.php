@@ -18,7 +18,7 @@ class ScoreAssigned extends Migration
             $table->integer('value');
             $table->timestamps();
             $table->unsignedBigInteger('scoreId');
-            $table->foreign('scoreId')->references('id')->on('score');
+            $table->foreign('scoreId')->references('id')->on('score')->onDelete('cascade');
             $table->unsignedBigInteger('studentId');
             $table->foreign('studentId')->references('id')->on('student');
             $table->unsignedBigInteger('activityId');

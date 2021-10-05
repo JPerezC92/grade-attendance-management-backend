@@ -15,6 +15,42 @@ class CourseRecordController extends Controller
 {
 
 
+    public function update(Request $request, $courseRecordId)
+    {
+        try {
+            $courseRecord =  CourseRecord::find($courseRecordId);
+
+            $updatedData = $request->only($courseRecord->getFillable());
+
+
+            $courseRecord->fill($updatedData)->save();
+            $courseRecord->fresh();
+
+            $courseRecord->period;
+
+            return response()->json([
+                "success" => true,
+                "payload" => $courseRecord
+            ]);
+        } catch (Throwable $e) {
+            return response(content: $e->getMessage(), status: "500",);
+        }
+    }
+
+    public function delete(Request $request, $courseRecordId)
+    {
+        try {
+            CourseRecord::destroy($courseRecordId);
+
+            return response()->json([
+                "success" => true,
+                "payload" => "Registro eliminado con exito"
+            ]);
+        } catch (Throwable $e) {
+            return response(content: $e->getMessage(), status: "500",);
+        }
+    }
+
     public function create(Request $request)
     {
         try {
@@ -44,75 +80,6 @@ class CourseRecordController extends Controller
     public function getById(Request $request, $courseRecordId)
     {
         try {
-            // $courseRecord = CourseRecord::with('students')->find($courseRecordId);
-            // $courseRecord->period;
-            // $courseRecord->students;
-            // $courseRecord->activities;
-            // $courseRecord->attendances;
-
-            // $activities = Activity::all();
-            // $scoresCalculation = [];
-            // $finalScore = 0;
-            // // Calculate scores
-            // foreach ($courseRecord->students as $index => $studentValue) {
-            //     $promedio = [];
-
-            //     $activityData = [];
-            //     foreach ($activities as $index => $activityValue) {
-
-            //         $notas = ScoreAssigned::where([['studentId', "=", $studentValue->id], ['activityId', "=", $activityValue->id]])->get();
-            //         $average = 0;
-            //         foreach ($notas as $index => $notaValue) {
-            //             $average += $notaValue->value;
-            //         }
-
-            //         if (count($notas) > 1) {
-            //             $average = $average / count($notas);
-            //         }
-
-            //         $finalScore += $average * $activityValue->value / 100;
-            //         $finalScore = round($finalScore, 2);
-
-            //         array_push($activityData, [
-            //             "average" =>  round($average, 2),
-            //             "activityId" => $activityValue->id,
-            //             "value" => $activityValue->value
-            //         ]);
-            //     }
-
-            //     $promedio = [
-            //         "studentId" => $studentValue->id,
-            //         "activities" => $activityData,
-            //         "finalScore" => $finalScore,
-            //         "finalScoreRounded" => round($finalScore, 0, PHP_ROUND_HALF_UP)
-            //     ];
-
-            //     $finalScore = 0;
-
-            //     array_push(
-            //         $scoresCalculation,
-            //         $promedio
-            //     );
-            // }
-
-            // $courseRecord["scoresCalculation"] = $scoresCalculation;
-
-            // // Activity details
-            // foreach ($courseRecord->activities as $index => $activitiesValue) {
-            //     $activitiesValue->scores;
-            //     $activitiesValue["scoresQuantity"] = count($activitiesValue->scores);
-
-            //     foreach ($activitiesValue->scores as $index => $scoresValue) {
-            //         $scoresValue->scoresAssigned;
-            //     }
-            // }
-
-            // foreach ($courseRecord->attendances as $index => $value) {
-            //     $value->attendanceChecks;
-            // }
-
-
-            // ***********************************************************************************************************************************
 
             $courseRecordEntity = CourseRecord::with("activities", "attendances", "activities.scores")->find($courseRecordId);
             $courseRecordOject = ["courseRecord" => $courseRecordEntity->attributesToArray()];

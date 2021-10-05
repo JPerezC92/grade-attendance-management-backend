@@ -77,9 +77,11 @@ class ScoreController extends Controller
             DB::table("scoreAssigned")
                 ->where("scoreId", $scoreId)
                 ->delete();
+
             DB::table("score")
                 ->where("score.id", $scoreId)
                 ->delete();
+
 
             return response()->json([
                 "success" => true,
