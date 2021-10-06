@@ -14,14 +14,6 @@ class AuthController extends Controller
     public function register(Request $request)
     {
         try {
-            // $validatedData = $request->validate([
-            //     "firstname" => "required|string|max:255",
-            //     "lastname" => "required|string|max:255",
-            //     "email" => "required|string|email:255:unique:users",
-            //     "password" => "required|string|min:8",
-            // ]);
-
-            // $user = User::create($request->all());
 
             $user = User::create([
                 "firstname" => $request["firstname"],
@@ -69,11 +61,25 @@ class AuthController extends Controller
     public function infoUser(Request $request)
     {
         try {
-
-
             return response()->json([
                 "success" => true,
                 "payload" => $request->user()
+            ]);
+        } catch (Throwable $e) {
+            return response(content: $e->getMessage(), status: "500",);
+        }
+    }
+
+    public function logout(Request $request)
+    {
+        try {
+            $user = $request->user();
+
+            $user->tokens()->delete();
+
+            return response()->json([
+                "success" => true,
+                "payload" => "Sesion cerrada"
             ]);
         } catch (Throwable $e) {
             return response(content: $e->getMessage(), status: "500",);
