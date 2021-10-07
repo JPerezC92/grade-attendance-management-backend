@@ -12,9 +12,9 @@ class PeriodController extends Controller
     public function getAll(Request $request)
     {
         try {
-            $instructorId = $request->query("instructorId");
+            $user = $request->user();
 
-            $periods = User::find($instructorId)->periods;
+            $periods = User::find($user->id)->periods;
 
             return response()->json([
                 "success" => true,
@@ -28,9 +28,11 @@ class PeriodController extends Controller
     public function create(Request $request)
     {
         try {
+            $user = $request->user();
+
             $period = Period::create([
                 "value" => $request->value,
-                "instructorId" => $request->instructorId
+                "instructorId" => $user->id
             ]);
 
             $period = Period::find($period->id);

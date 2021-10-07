@@ -13,11 +13,14 @@ class CourseController extends Controller
     public function create(Request $request)
     {
         try {
+            // print_r($request->user());
+            $instructorId = $request->user()->id;
+
             $course =  Course::create([
                 "name" => $request->name,
                 "campus" => $request->campus,
                 "career" => $request->career,
-                "instructorId" => $request->instructorId,
+                "instructorId" => $instructorId,
             ]);
 
             $course->fresh();
@@ -34,9 +37,9 @@ class CourseController extends Controller
     public function geltAll(Request $request)
     {
         try {
-            $instructorId = $request->query("instructorId");
+            $user = $request->user();
 
-            $courses =  User::find($instructorId)->courses;
+            $courses =  User::find($user->id)->courses;
 
             return response()->json([
                 "success" => true,
