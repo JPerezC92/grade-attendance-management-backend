@@ -1,5 +1,3 @@
-
-
 <?php
 
 use App\Http\Controllers\CourseRecordController;
@@ -9,3 +7,4 @@ Route::post('/', [CourseRecordController::class, 'create'])->name('courseRecord.
 Route::put('/{courseRecordId}', [CourseRecordController::class, 'update'])->name('courseRecord.update');
 Route::delete('/{courseRecordId}', [CourseRecordController::class, 'delete'])->name('courseRecord.delete');
 Route::get('/{courseRecordId}', [CourseRecordController::class, 'getById'])->name('courseRecord.getById');
+Route::get('/{courseRecordId}/excel', [CourseRecordController::class, 'createExcel'])->name('courseRecord.createExcel');

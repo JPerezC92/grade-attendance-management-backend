@@ -4,8 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Course;
 use App\Models\User;
+use App\Models\CourseRecord;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Throwable;
 
 class CourseController extends Controller
@@ -97,6 +97,7 @@ class CourseController extends Controller
     public function delete(Request $request, $courseId)
     {
         try {
+            CourseRecord::where("courseId", $courseId)->delete();
             Course::destroy($courseId);
 
             return response()->json([
