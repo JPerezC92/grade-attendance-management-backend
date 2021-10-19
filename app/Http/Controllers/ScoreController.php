@@ -52,11 +52,11 @@ class ScoreController extends Controller
         }
     }
 
-    public function getById(Request $request, $scoreId)
+    public function getById(Request $request, $scoreId, $courseRecordId)
     {
         try {
             $score = DB::table("score")
-                ->where("score.id", $scoreId)
+                ->where([["score.id", "=", $scoreId], ["student.courseRecordId", "=", $courseRecordId]])
                 ->join('scoreAssigned', 'scoreAssigned.scoreId', '=', 'score.id')
                 ->leftJoin('student', 'student.id', '=', 'scoreAssigned.studentId')
                 ->select("student.firstname", "student.lastname", "scoreAssigned.*")

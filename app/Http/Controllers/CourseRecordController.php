@@ -468,12 +468,13 @@ class CourseRecordController extends Controller
 
             $headers  = array(
                 'Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-                'Content-Disposition: attachment;filename="' . "laravel2.xlsx" . '"',
+                'Content-Disposition: attachment;filename="' . "output.xlsx" . '"',
                 'Cache-Control: max-age=0'
             );
 
             $exportFile = storage_path('../public/output.xlsx');
-            return response()->download($exportFile, "output.xlsx", $headers)->deleteFileAfterSend();
+            // return response()->download($exportFile, "output.xlsx", $headers)->deleteFileAfterSend();
+            return response()->file($exportFile, $headers);
         } catch (Throwable $e) {
             return response(content: $e->getMessage(), status: "500",);
         }
