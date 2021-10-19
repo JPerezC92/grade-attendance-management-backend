@@ -3,10 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\AttendanceCheck;
+use App\Models\ScoreAssigned;
 use App\Models\Student;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use ScoreAssigned;
 use Throwable;
 
 class StudentController extends Controller
@@ -38,6 +38,27 @@ class StudentController extends Controller
             }
 
             AttendanceCheck::insert($attendancesCheckData);
+
+
+            $scores =  DB::table('activity')
+                ->where('activity.courseRecordId', $student->courseRecordId)
+                ->join("score", "score.activityId", "=", "activity.id")
+                ->select('score.*')
+                ->get()
+                ->toArray();
+
+            $scoresCheckData = [];
+
+            foreach ($scores as $key => $value) {
+                array_push($scoresCheckData, [
+                    "value" => 0,
+                    "scoreId" => $scores[$key]->id,
+                    "studentId" => $student->id,
+                    "activityId" => $scores[$key]->activityId
+                ]);
+            }
+
+            ScoreAssigned::insert($scoresCheckData);
 
             return response()->json([
                 "success" => true,
