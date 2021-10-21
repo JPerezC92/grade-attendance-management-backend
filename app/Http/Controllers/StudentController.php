@@ -94,7 +94,55 @@ class StudentController extends Controller
                 ]);
             }
 
-            $students =  Student::upsert($studentsToSave, ["id", "courseRecordId"], ["studentCode"]);
+            // $students =  Student::upsert($studentsToSave, ["id", "courseRecordId"], ["studentCode"]);
+
+            $studentIdArr = [];
+
+            foreach ($studentsToSave as $key => $student) {
+                $id = DB::table('student')->insertGetId($student);
+                array_push($studentIdArr, $id);
+            }
+
+            $attendances =  DB::table('attendance')
+                ->where('attendance.courseRecordId', $courseRecordId)
+                ->get()
+                ->toArray();
+
+            $attendancesCheckData = [];
+
+            foreach ($attendances as $attendanceKey => $value) {
+                foreach ($studentIdArr as $key => $id) {
+                    array_push($attendancesCheckData, [
+                        "studentId" => $id,
+                        "attendanceId" => $attendances[$attendanceKey]->id
+                    ]);
+                }
+            }
+
+            AttendanceCheck::insert($attendancesCheckData);
+
+
+            $scores =  DB::table('activity')
+                ->where('activity.courseRecordId', $courseRecordId)
+                ->join("score", "score.activityId", "=", "activity.id")
+                ->select('score.*')
+                ->get()
+                ->toArray();
+
+            $scoresCheckData = [];
+
+            foreach ($scores as $scoresKey => $value) {
+                foreach ($studentIdArr as $key => $id) {
+                    array_push($scoresCheckData, [
+                        "value" => 0,
+                        "scoreId" => $scores[$scoresKey]->id,
+                        "studentId" => $id,
+                        "activityId" => $scores[$scoresKey]->activityId
+                    ]);
+                }
+            }
+
+            ScoreAssigned::insert($scoresCheckData);
 
             return response()->json([
                 "success" => true,
