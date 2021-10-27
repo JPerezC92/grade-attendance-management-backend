@@ -8,6 +8,21 @@ use Throwable;
 
 class ScoresAssignedController extends Controller
 {
+    public function update(Request $request, $scoreId)
+    {
+        try {
+            $value = $request->value;
+            ScoreAssigned::where('id', $scoreId)->update(["value" => $value]);
+
+            return response()->json([
+                "success" => true,
+                "payload" => "Nota actualizada correctamente",
+            ]);
+        } catch (Throwable $e) {
+            return response(content: $e->getMessage(), status: "500",);
+        }
+    }
+
     public function updateMany(Request $request)
     {
         try {
