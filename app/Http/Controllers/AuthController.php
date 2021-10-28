@@ -130,7 +130,7 @@ class AuthController extends Controller
             $newPassword = $request->newPassword;
             $user = $request->user();
 
-            $user = User::where("id", $user->id)
+            User::where("id", $user->id)
                 ->update(["password" => Hash::make($newPassword)]);
 
             $user->tokens()->delete();
