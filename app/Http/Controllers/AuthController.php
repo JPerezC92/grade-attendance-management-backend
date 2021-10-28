@@ -109,7 +109,7 @@ class AuthController extends Controller
             $details = [
                 "title" => "Recuperar contraseña",
                 "body" => "Siga el siguiente link para restaurar su contraseña",
-                "url" => "https://grade-attendance-management-frontend.vercel.app/auth/recover-password?recover_key=" . $token,
+                "url" => "https://grade-attendance-management-frontend.vercel.app/auth/reset-password?recover_key=" . $token,
             ];
 
             Mail::to($email)->send(new RecoverPasswordEmail($details));
