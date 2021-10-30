@@ -15,7 +15,7 @@ class ScoreAssigned extends Migration
     {
         Schema::create('scoreAssigned', function (Blueprint $table) {
             $table->bigIncrements("id");
-            $table->integer('value');
+            $table->float('value', 5, 2);
             $table->timestamps();
             $table->unsignedBigInteger('scoreId');
             $table->foreign('scoreId')->references('id')->on('score')->onDelete('cascade');
