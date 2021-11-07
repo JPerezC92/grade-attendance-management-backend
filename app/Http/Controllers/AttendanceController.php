@@ -23,15 +23,14 @@ class AttendanceController extends Controller
                     $join->on("student.id", "=", "attendanceCheck.studentId");
                     $join->on("attendanceCheck.attendanceId", "=", "attendance.id");
                 })
-                // ->join("attendanceStatus", "attendanceStatus.id", "=", "attendanceCheck.attendanceStatusId")
                 ->select(
                     "attendance.*",
                     "student.firstname",
                     "student.lastname",
                     "student.id as studentId",
                     "attendanceCheck.*",
-                    // "attendanceStatus.value as attendanceStatusValue"
                 )
+                ->orderBy("student.lastname")
                 ->get();
 
             return response()->json([

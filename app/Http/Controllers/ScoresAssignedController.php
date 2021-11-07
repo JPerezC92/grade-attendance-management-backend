@@ -11,8 +11,13 @@ class ScoresAssignedController extends Controller
     public function update(Request $request, $scoreId)
     {
         try {
-            $value = $request->value;
-            ScoreAssigned::where('id', $scoreId)->update(["value" => $value]);
+            // $value = $request->value;
+            // ScoreAssigned::where('id', $scoreId)->update(["value" => $value]);
+
+            $scoreAssigned = ScoreAssigned::find($scoreId);
+            $updatedData = $request->only($scoreAssigned->getFillable());
+            $scoreAssigned->fill($updatedData)->save();
+
 
             return response()->json([
                 "success" => true,
@@ -26,8 +31,13 @@ class ScoresAssignedController extends Controller
     public function updateMany(Request $request)
     {
         try {
-            foreach ($request->all() as $key => $scoreAssigned) {
-                ScoreAssigned::where('id', $scoreAssigned["id"])->update(["value" => $scoreAssigned["value"]]);
+            foreach ($request->all() as $key => $scoreAssignedValue) {
+                $scoreAssigned = ScoreAssigned::find($scoreAssignedValue["id"]);
+
+                if ($scoreAssigned->value !== round($scoreAssignedValue["value"], 2)) {
+                    $scoreAssigned->value = $scoreAssignedValue["value"];
+                    $scoreAssigned->save();
+                }
             }
 
             return response()->json([

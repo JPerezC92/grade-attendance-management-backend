@@ -9,7 +9,7 @@ class ScoreAssigned extends Model
 {
     use HasFactory;
     protected $table = 'scoreAssigned';
-    public $timestamps = true;
+    public $timestamps  = true;
 
     protected $fillable = [
         'value',

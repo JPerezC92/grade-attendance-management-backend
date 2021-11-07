@@ -113,6 +113,7 @@ class CourseRecordController extends Controller
                     DB::raw("(SELECT COUNT(CASE attendanceCheck.attendanceStatusId WHEN 3 THEN 1 ELSE	NULL END) FROM attendanceCheck WHERE attendanceCheck.studentId = student.id) as skip"),
                     DB::raw("(SELECT COUNT(attendance.id) FROM attendance WHERE attendance.courseRecordId = student.courseRecordId) as attendancesQuantity")
                 )
+                ->orderBy('student.lastname')
                 ->get();
 
             $studentsArr = $studentsEntitiesArr->toArray();
