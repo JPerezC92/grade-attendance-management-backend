@@ -16,6 +16,7 @@ class Course extends Migration
         Schema::create('course', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->enum('status', ["activo", "inactivo"])->default('activo');
             $table->timestamps();
             $table->unsignedBigInteger('instructorId');
             $table->foreign('instructorId')->references('id')->on('users');
