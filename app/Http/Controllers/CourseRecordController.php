@@ -312,7 +312,7 @@ class CourseRecordController extends Controller
 
 
             //
-            if (count($courseRecordOject["activities"]) > 0 && count($courseRecordOject["attendances"]) > 0) {
+            if (count($courseRecordOject["activities"]) > 0) {
 
                 // Header Calificaciones
                 $gradeWorksheet
@@ -402,7 +402,10 @@ class CourseRecordController extends Controller
                         ->setCellValue("{$finalScoreRoundedColumn}{$row}", $studentValue->finalScoreRounded);
                     $row++;
                 }
-
+            }
+            // 
+            //
+            if (count($courseRecordOject["attendances"]) > 0) {
                 // Header Asistencias
                 $startRowHeader = 11;
                 $startColumnHeader = 0;
