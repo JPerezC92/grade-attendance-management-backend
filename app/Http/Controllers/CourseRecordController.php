@@ -310,156 +310,161 @@ class CourseRecordController extends Controller
 
             $rowHeader = $startRowHeader;
 
-            // Header Calificaciones
-            $gradeWorksheet
-                ->setCellValue("A{$rowHeader}", "Codigo")
-                ->setCellValue("B{$rowHeader}", "Nombres")
-                ->setCellValue("C{$rowHeader}", "Apellidos");
 
+            //
+            if (count($courseRecordOject["activities"]) > 0 && count($courseRecordOject["attendances"]) > 0) {
 
-            $rowHeaderMain = $rowHeader - 1;
-            $gradeWorksheet->setCellValue("A" . $rowHeaderMain, "Lista de studiantes")
-                ->mergeCells("A" . $rowHeaderMain  . ":C" . $rowHeaderMain);
-
-            $startColumnHeader = 4;
-            $startColumnFinals = 0;
-            $finalScoreColumn = "";
-            $finalScoreRoundedColumn = "";
-
-            foreach ($courseRecordOject["students"][0]->activities as $key2 => $activityValue) {
-                $column1 = Coordinate::stringFromColumnIndex($startColumnHeader);
-                $column2 = Coordinate::stringFromColumnIndex($startColumnHeader);
-
-                if ($activityValue["scoresQuantity"] > 1) {
-                    $column2 = Coordinate::stringFromColumnIndex($startColumnHeader + $activityValue["scoresQuantity"]);
-                }
-
-                $gradeWorksheet->setCellValue($column1 . $rowHeaderMain, $activityValue["name"])
-                    ->mergeCells($column1 . $rowHeaderMain  . ":" . $column2  . $rowHeaderMain);
-
-                foreach ($activityValue["scoresAssigned"] as $key3 => $scoreAssignedValue) {
-                    $column = Coordinate::stringFromColumnIndex($startColumnHeader++);
-                    $gradeWorksheet
-                        ->setCellValue("{$column}{$rowHeader}", "N" . $key3 + 1);
-                }
-
-                if ($activityValue["scoresQuantity"] > 1) {
-                    $column = Coordinate::stringFromColumnIndex($startColumnHeader++);
-                    $gradeWorksheet
-                        ->setCellValue("{$column}{$rowHeader}", "Promedio");
-                }
-            }
-
-            $startColumnFinals = $startColumnHeader;
-            $finalScoreColumn = Coordinate::stringFromColumnIndex($startColumnFinals);
-            $finalScoreRoundedColumn = Coordinate::stringFromColumnIndex($startColumnFinals + 1);
-
-            $gradeWorksheet
-                ->setCellValue("{$finalScoreColumn}{$rowHeader}", "Nota Final")
-                ->setCellValue("{$finalScoreRoundedColumn}{$rowHeader}", "Redondeo");
-
-            $startRow = 12;
-            $startColumn = 0;
-
-            $row = $startRow;
-
-            // Body Calificaciones
-            foreach ($courseRecordOject["students"] as $key => $studentValue) {
+                // Header Calificaciones
                 $gradeWorksheet
-                    ->setCellValue("A{$row}", $studentValue->studentCode)
-                    ->setCellValue("B{$row}", $studentValue->firstname)
-                    ->setCellValue("C{$row}", $studentValue->lastname);
-                $startColumn = 4;
+                    ->setCellValue("A{$rowHeader}", "Codigo")
+                    ->setCellValue("B{$rowHeader}", "Nombres")
+                    ->setCellValue("C{$rowHeader}", "Apellidos");
 
 
+                $rowHeaderMain = $rowHeader - 1;
+                $gradeWorksheet->setCellValue("A" . $rowHeaderMain, "Lista de studiantes")
+                    ->mergeCells("A" . $rowHeaderMain  . ":C" . $rowHeaderMain);
+
+                $startColumnHeader = 4;
                 $startColumnFinals = 0;
                 $finalScoreColumn = "";
                 $finalScoreRoundedColumn = "";
 
-                foreach ($studentValue->activities as $key2 => $activityValue) {
-                    foreach ($activityValue["scoresAssigned"] as $key3 => $scoreAssignedValue) {
-                        $column = Coordinate::stringFromColumnIndex($startColumn++);
-                        $gradeWorksheet
-                            ->setCellValue("{$column}{$row}", $scoreAssignedValue->value);
-                    }
+                foreach ($courseRecordOject["students"][0]->activities as $key2 => $activityValue) {
+                    $column1 = Coordinate::stringFromColumnIndex($startColumnHeader);
+                    $column2 = Coordinate::stringFromColumnIndex($startColumnHeader);
+
                     if ($activityValue["scoresQuantity"] > 1) {
-                        $column = Coordinate::stringFromColumnIndex($startColumn++);
+                        $column2 = Coordinate::stringFromColumnIndex($startColumnHeader + $activityValue["scoresQuantity"]);
+                    }
+
+                    $gradeWorksheet->setCellValue($column1 . $rowHeaderMain, $activityValue["name"])
+                        ->mergeCells($column1 . $rowHeaderMain  . ":" . $column2  . $rowHeaderMain);
+
+                    foreach ($activityValue["scoresAssigned"] as $key3 => $scoreAssignedValue) {
+                        $column = Coordinate::stringFromColumnIndex($startColumnHeader++);
                         $gradeWorksheet
-                            ->setCellValue("{$column}{$row}", $activityValue["average"]);
+                            ->setCellValue("{$column}{$rowHeader}", "N" . $key3 + 1);
+                    }
+
+                    if ($activityValue["scoresQuantity"] > 1) {
+                        $column = Coordinate::stringFromColumnIndex($startColumnHeader++);
+                        $gradeWorksheet
+                            ->setCellValue("{$column}{$rowHeader}", "Promedio");
                     }
                 }
 
-                $startColumnFinals = $startColumn;
+                $startColumnFinals = $startColumnHeader;
                 $finalScoreColumn = Coordinate::stringFromColumnIndex($startColumnFinals);
                 $finalScoreRoundedColumn = Coordinate::stringFromColumnIndex($startColumnFinals + 1);
 
                 $gradeWorksheet
-                    ->setCellValue("{$finalScoreColumn}{$row}", $studentValue->finalScore)
-                    ->setCellValue("{$finalScoreRoundedColumn}{$row}", $studentValue->finalScoreRounded);
-                $row++;
-            }
+                    ->setCellValue("{$finalScoreColumn}{$rowHeader}", "Nota Final")
+                    ->setCellValue("{$finalScoreRoundedColumn}{$rowHeader}", "Redondeo");
 
-            // Header Asistencias
-            $startRowHeader = 11;
-            $startColumnHeader = 0;
+                $startRow = 12;
+                $startColumn = 0;
 
-            $rowHeader = $startRowHeader;
-            $attendanceWorksheet
-                ->setCellValue("A{$rowHeader}", "Codigo")
-                ->setCellValue("B{$rowHeader}", "Nombres")
-                ->setCellValue("C{$rowHeader}", "Apellidos");
+                $row = $startRow;
 
-            $attendanceWorksheet->setCellValue("A" . $startRowHeader - 1, "Lista de studiantes")
-                ->mergeCells("A" . $startRowHeader - 1  . ":C" . $startRowHeader - 1);
-
-            $lastColDates = Coordinate::stringFromColumnIndex(3 + count($courseRecordOject["attendances"]));
-            $attendanceWorksheet->setCellValue("D" . $startRowHeader - 1, "Fechas")
-                ->mergeCells("D" . $startRowHeader - 1  . ":" . $lastColDates . $startRowHeader - 1);
-
-            $firstColDatesResumen = Coordinate::stringFromColumnIndex(4 + count($courseRecordOject["attendances"]));
-            $lastColDatesResumen = Coordinate::stringFromColumnIndex(6 + count($courseRecordOject["attendances"]));
-            $attendanceWorksheet->setCellValue($firstColDatesResumen . $startRowHeader - 1, "Resumen")
-                ->mergeCells($firstColDatesResumen . $startRowHeader - 1  . ":" . $lastColDatesResumen . $startRowHeader - 1);
+                // Body Calificaciones
+                foreach ($courseRecordOject["students"] as $key => $studentValue) {
+                    $gradeWorksheet
+                        ->setCellValue("A{$row}", $studentValue->studentCode)
+                        ->setCellValue("B{$row}", $studentValue->firstname)
+                        ->setCellValue("C{$row}", $studentValue->lastname);
+                    $startColumn = 4;
 
 
+                    $startColumnFinals = 0;
+                    $finalScoreColumn = "";
+                    $finalScoreRoundedColumn = "";
 
-            $startColumnHeader = 4;
-            foreach ($courseRecordOject["attendances"] as $key => $attendanceValue) {
-                $headerColumn = Coordinate::stringFromColumnIndex($startColumnHeader++);
+                    foreach ($studentValue->activities as $key2 => $activityValue) {
+                        foreach ($activityValue["scoresAssigned"] as $key3 => $scoreAssignedValue) {
+                            $column = Coordinate::stringFromColumnIndex($startColumn++);
+                            $gradeWorksheet
+                                ->setCellValue("{$column}{$row}", $scoreAssignedValue->value);
+                        }
+                        if ($activityValue["scoresQuantity"] > 1) {
+                            $column = Coordinate::stringFromColumnIndex($startColumn++);
+                            $gradeWorksheet
+                                ->setCellValue("{$column}{$row}", $activityValue["average"]);
+                        }
+                    }
+
+                    $startColumnFinals = $startColumn;
+                    $finalScoreColumn = Coordinate::stringFromColumnIndex($startColumnFinals);
+                    $finalScoreRoundedColumn = Coordinate::stringFromColumnIndex($startColumnFinals + 1);
+
+                    $gradeWorksheet
+                        ->setCellValue("{$finalScoreColumn}{$row}", $studentValue->finalScore)
+                        ->setCellValue("{$finalScoreRoundedColumn}{$row}", $studentValue->finalScoreRounded);
+                    $row++;
+                }
+
+                // Header Asistencias
+                $startRowHeader = 11;
+                $startColumnHeader = 0;
+
+                $rowHeader = $startRowHeader;
                 $attendanceWorksheet
-                    ->setCellValue($headerColumn . $rowHeader, $attendanceValue["date"]);
-            }
+                    ->setCellValue("A{$rowHeader}", "Codigo")
+                    ->setCellValue("B{$rowHeader}", "Nombres")
+                    ->setCellValue("C{$rowHeader}", "Apellidos");
 
-            $attendanceWorksheet
-                ->setCellValue(Coordinate::stringFromColumnIndex($startColumnHeader++) . $rowHeader, "A")
-                ->setCellValue(Coordinate::stringFromColumnIndex($startColumnHeader++) . $rowHeader, "T")
-                ->setCellValue(Coordinate::stringFromColumnIndex($startColumnHeader++) . $rowHeader, "I")
-                ->setCellValue(Coordinate::stringFromColumnIndex($startColumnHeader++) . $rowHeader, "% Asistencias");
+                $attendanceWorksheet->setCellValue("A" . $startRowHeader - 1, "Lista de studiantes")
+                    ->mergeCells("A" . $startRowHeader - 1  . ":C" . $startRowHeader - 1);
 
-            // Body Asistencias
-            $startRowHeader = 12;
-            $startColumnHeader = 4;
-            $rowHeader = $startRowHeader;
+                $lastColDates = Coordinate::stringFromColumnIndex(3 + count($courseRecordOject["attendances"]));
+                $attendanceWorksheet->setCellValue("D" . $startRowHeader - 1, "Fechas")
+                    ->mergeCells("D" . $startRowHeader - 1  . ":" . $lastColDates . $startRowHeader - 1);
 
-            foreach ($courseRecordOject["students"] as $key => $studentValue) {
-                $attendanceWorksheet
-                    ->setCellValue("A" . $rowHeader, $studentValue->studentCode)
-                    ->setCellValue("B" . $rowHeader, $studentValue->firstname)
-                    ->setCellValue("C" . $rowHeader, $studentValue->lastname);
-                $colum = 4;
-                foreach ($studentValue->attendances["attendancesCheck"] as $key => $attendancesCheckValue) {
+                $firstColDatesResumen = Coordinate::stringFromColumnIndex(4 + count($courseRecordOject["attendances"]));
+                $lastColDatesResumen = Coordinate::stringFromColumnIndex(6 + count($courseRecordOject["attendances"]));
+                $attendanceWorksheet->setCellValue($firstColDatesResumen . $startRowHeader - 1, "Resumen")
+                    ->mergeCells($firstColDatesResumen . $startRowHeader - 1  . ":" . $lastColDatesResumen . $startRowHeader - 1);
+
+
+
+                $startColumnHeader = 4;
+                foreach ($courseRecordOject["attendances"] as $key => $attendanceValue) {
+                    $headerColumn = Coordinate::stringFromColumnIndex($startColumnHeader++);
                     $attendanceWorksheet
-                        ->setCellValue(Coordinate::stringFromColumnIndex($colum++) . $rowHeader, strtoupper(substr($attendancesCheckValue->attendanceStatusValue, 0, 1)));
+                        ->setCellValue($headerColumn . $rowHeader, $attendanceValue["date"]);
                 }
 
                 $attendanceWorksheet
-                    ->setCellValue(Coordinate::stringFromColumnIndex($colum++) . $rowHeader, $studentValue->attendances["attended"])
-                    ->setCellValue(Coordinate::stringFromColumnIndex($colum++) . $rowHeader, $studentValue->attendances["late"])
-                    ->setCellValue(Coordinate::stringFromColumnIndex($colum++) . $rowHeader, $studentValue->attendances["skip"])
-                    ->setCellValue(Coordinate::stringFromColumnIndex($colum++) . $rowHeader, $studentValue->attendances["attendedAverage"] . "%");
-                $rowHeader++;
-            }
+                    ->setCellValue(Coordinate::stringFromColumnIndex($startColumnHeader++) . $rowHeader, "A")
+                    ->setCellValue(Coordinate::stringFromColumnIndex($startColumnHeader++) . $rowHeader, "T")
+                    ->setCellValue(Coordinate::stringFromColumnIndex($startColumnHeader++) . $rowHeader, "I")
+                    ->setCellValue(Coordinate::stringFromColumnIndex($startColumnHeader++) . $rowHeader, "% Asistencias");
 
+                // Body Asistencias
+                $startRowHeader = 12;
+                $startColumnHeader = 4;
+                $rowHeader = $startRowHeader;
+
+                foreach ($courseRecordOject["students"] as $key => $studentValue) {
+                    $attendanceWorksheet
+                        ->setCellValue("A" . $rowHeader, $studentValue->studentCode)
+                        ->setCellValue("B" . $rowHeader, $studentValue->firstname)
+                        ->setCellValue("C" . $rowHeader, $studentValue->lastname);
+                    $colum = 4;
+                    foreach ($studentValue->attendances["attendancesCheck"] as $key => $attendancesCheckValue) {
+                        $attendanceWorksheet
+                            ->setCellValue(Coordinate::stringFromColumnIndex($colum++) . $rowHeader, strtoupper(substr($attendancesCheckValue->attendanceStatusValue, 0, 1)));
+                    }
+
+                    $attendanceWorksheet
+                        ->setCellValue(Coordinate::stringFromColumnIndex($colum++) . $rowHeader, $studentValue->attendances["attended"])
+                        ->setCellValue(Coordinate::stringFromColumnIndex($colum++) . $rowHeader, $studentValue->attendances["late"])
+                        ->setCellValue(Coordinate::stringFromColumnIndex($colum++) . $rowHeader, $studentValue->attendances["skip"])
+                        ->setCellValue(Coordinate::stringFromColumnIndex($colum++) . $rowHeader, $studentValue->attendances["attendedAverage"] . "%");
+                    $rowHeader++;
+                }
+            }
+            //
 
             $spreadsheet->addSheet($gradeWorksheet, 0);
             $spreadsheet->addSheet($attendanceWorksheet, 1);
