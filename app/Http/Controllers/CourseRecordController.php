@@ -144,9 +144,10 @@ class CourseRecordController extends Controller
             $attendancesCheck = AttendanceCheck::whereIn("attendanceCheck.studentId", $studentsIds)
                 ->select(
                     "attendanceCheck.*",
-                    DB::raw("(SELECT attendanceStatus.value FROM attendanceStatus WHERE attendanceStatus.id = attendanceCheck.attendanceStatusId) as attendanceStatusValue")
+                    DB::raw("(SELECT attendanceStatus.value FROM attendanceStatus WHERE attendanceStatus.id = attendanceCheck.attendanceStatusId) as attendanceStatusValue"),
+                    DB::raw("(SELECT date FROM attendance WHERE attendance.id = attendanceCheck.attendanceId) as attendancesDate")
                 )
-                ->orderBy("attendanceCheck.created_at")
+                ->orderBy("attendancesDate")
                 ->get();
 
             $scoresAssigned = ScoreAssigned::whereIn("scoreAssigned.studentId", $studentsIds)
@@ -258,9 +259,10 @@ class CourseRecordController extends Controller
             $attendancesCheck = AttendanceCheck::whereIn("attendanceCheck.studentId", $studentsIds)
                 ->select(
                     "attendanceCheck.*",
-                    DB::raw("(SELECT attendanceStatus.value FROM attendanceStatus WHERE attendanceStatus.id = attendanceCheck.attendanceStatusId) as attendanceStatusValue")
+                    DB::raw("(SELECT attendanceStatus.value FROM attendanceStatus WHERE attendanceStatus.id = attendanceCheck.attendanceStatusId) as attendanceStatusValue"),
+                    DB::raw("(SELECT date FROM attendance WHERE attendance.id = attendanceCheck.attendanceId) as attendancesDate")
                 )
-                ->orderBy("attendanceCheck.created_at")
+                ->orderBy("attendancesDate")
                 ->get();
 
             $scoresAssigned = ScoreAssigned::whereIn("scoreAssigned.studentId", $studentsIds)
