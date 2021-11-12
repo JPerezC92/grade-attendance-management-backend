@@ -6,6 +6,7 @@ use App\Models\Attendance;
 use App\Models\AttendanceCheck;
 use App\Models\Student;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 use Throwable;
 
@@ -63,6 +64,7 @@ class AttendanceController extends Controller
                 array_push($attendanceCheckData, [
                     "studentId" => $studentValue["id"],
                     "attendanceId" => $attendance["id"],
+                    "created_at" => Carbon::now('utc')->toDateTimeString()
                 ]);
             }
 
