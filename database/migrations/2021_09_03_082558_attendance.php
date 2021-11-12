@@ -16,6 +16,7 @@ class Attendance extends Migration
         Schema::create('attendance', function (Blueprint $table) {
             $table->id();
             $table->date("date");
+            $table->enum('type', ["Teoria", "Practica"])->default('Teoria');
             $table->timestamps();
             $table->unsignedBigInteger('courseRecordId');
             $table->foreign('courseRecordId')->references('id')->on('courseRecord')->onDelete('cascade');;
