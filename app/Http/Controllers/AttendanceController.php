@@ -54,6 +54,7 @@ class AttendanceController extends Controller
 
             $attendance = Attendance::create([
                 'date' => $request->date,
+                'type' => $request->type,
                 'courseRecordId' => $request->courseRecordId,
             ]);
             $attendance->fresh();
