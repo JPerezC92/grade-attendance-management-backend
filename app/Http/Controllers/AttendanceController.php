@@ -84,7 +84,7 @@ class AttendanceController extends Controller
 
                 return response()->json([
                     "success" => true,
-                    "payload" =>  $attendanceExists
+                    "payload" =>  $attendance
                 ]);
             }
         } catch (Throwable $e) {
