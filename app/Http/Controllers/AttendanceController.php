@@ -49,33 +49,44 @@ class AttendanceController extends Controller
     public function create(Request $request)
     {
         try {
-            $courseRecordId = $request->courseRecordId;
-            $attendanceCheckData = [];
-            $students = Student::where('student.courseRecordId', $courseRecordId)->get();
 
-            $attendance = Attendance::create([
-                'date' => $request->date,
-                'type' => $request->type,
-                'courseRecordId' => $request->courseRecordId,
-            ]);
-            $attendance->fresh();
+            $attendanceExists = Attendance::where([
+                ["date", "=", $request->date],
+                ["type", "=", $request->type],
+                ["courseRecordId", "=", $request->courseRecordId],
+            ])->first();
 
-            foreach ($students as $key => $studentValue) {
-                array_push($attendanceCheckData, [
-                    "studentId" => $studentValue["id"],
-                    "attendanceId" => $attendance["id"],
-                    "created_at" => Carbon::now('utc')->toDateTimeString()
+            if (!$attendanceExists) {
+
+
+                $courseRecordId = $request->courseRecordId;
+                $attendanceCheckData = [];
+                $students = Student::where('student.courseRecordId', $courseRecordId)->get();
+
+                $attendance = Attendance::create([
+                    'date' => $request->date,
+                    'type' => $request->type,
+                    'courseRecordId' => $request->courseRecordId,
+                ]);
+                $attendance->fresh();
+
+                foreach ($students as $key => $studentValue) {
+                    array_push($attendanceCheckData, [
+                        "studentId" => $studentValue["id"],
+                        "attendanceId" => $attendance["id"],
+                        "created_at" => Carbon::now('utc')->toDateTimeString()
+                    ]);
+                }
+
+                AttendanceCheck::insert($attendanceCheckData);
+
+                $attendance->attendanceChecks;
+
+                return response()->json([
+                    "success" => true,
+                    "payload" =>  $attendanceExists
                 ]);
             }
-
-            AttendanceCheck::insert($attendanceCheckData);
-
-            $attendance->attendanceChecks;
-
-            return response()->json([
-                "success" => true,
-                "payload" =>  $attendance
-            ]);
         } catch (Throwable $e) {
             return response(content: $e->getMessage(), status: "500",);
         }
