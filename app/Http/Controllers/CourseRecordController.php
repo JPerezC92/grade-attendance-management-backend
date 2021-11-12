@@ -146,7 +146,7 @@ class CourseRecordController extends Controller
                     "attendanceCheck.*",
                     DB::raw("(SELECT attendanceStatus.value FROM attendanceStatus WHERE attendanceStatus.id = attendanceCheck.attendanceStatusId) as attendanceStatusValue")
                 )
-                ->orderBy("created_at")
+                ->orderBy("attendanceCheck.created_at")
                 ->get();
 
             $scoresAssigned = ScoreAssigned::whereIn("scoreAssigned.studentId", $studentsIds)
@@ -260,7 +260,7 @@ class CourseRecordController extends Controller
                     "attendanceCheck.*",
                     DB::raw("(SELECT attendanceStatus.value FROM attendanceStatus WHERE attendanceStatus.id = attendanceCheck.attendanceStatusId) as attendanceStatusValue")
                 )
-                ->orderBy("created_at")
+                ->orderBy("attendanceCheck.created_at")
                 ->get();
 
             $scoresAssigned = ScoreAssigned::whereIn("scoreAssigned.studentId", $studentsIds)
