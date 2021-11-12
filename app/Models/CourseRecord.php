@@ -36,7 +36,7 @@ class CourseRecord extends Model
 
     public function attendances()
     {
-        return $this->hasMany(Attendance::class, 'courseRecordId');
+        return $this->hasMany(Attendance::class, 'courseRecordId')->orderBy('attendance.date');
     }
 
     public function period()

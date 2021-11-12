@@ -84,7 +84,8 @@ class CourseRecordController extends Controller
     {
         try {
 
-            $courseRecordEntity = CourseRecord::with("activities", "attendances", "activities.scores")->find($courseRecordId);
+            $courseRecordEntity = CourseRecord::with("activities", "attendances", "activities.scores")
+                ->find($courseRecordId);
             $courseRecordOject = ["courseRecord" => $courseRecordEntity->attributesToArray()];
             $activitiesArray = $courseRecordEntity->activities->toArray();
 
