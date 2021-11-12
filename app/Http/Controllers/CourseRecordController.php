@@ -443,7 +443,7 @@ class CourseRecordController extends Controller
                 foreach ($courseRecordOject["attendances"] as $key => $attendanceValue) {
                     $headerColumn = Coordinate::stringFromColumnIndex($startColumnHeader++);
                     $attendanceWorksheet
-                        ->setCellValue($headerColumn . $rowHeader, $attendanceValue["date"] . $attendanceValue["type"]);
+                        ->setCellValue($headerColumn . $rowHeader, $attendanceValue["date"] . " | " . $attendanceValue["type"]);
                 }
 
                 $attendanceWorksheet
